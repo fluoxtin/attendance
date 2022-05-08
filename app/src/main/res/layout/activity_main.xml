@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D000000"
+    tools:context=".MainActivity">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:tabSelectedTextColor="#3281BD"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/tab_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        app:tabSelectedTextColor="#3281BD"-->
+<!--        app:tabTextAppearance="@style/TabLayoutTextStyle"-->
+
+<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
+
+<!--
+        tabbIndicatorColor  指示器颜色
+        tabIndicatorHeight  高度
+        tabIndicatorFullWidth   false 则与文本宽度一致
+        tabUnboundedRipple  true 点击 水波纹效果
+        tabGravity  center 居中显示  fill 沾满全屏
+        tabMode  fixed 固定 tab  scrollable tab可滑动
+        tabTextColor
+        tabSelectedTextColor  选中 tab 的颜色
+
+-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
