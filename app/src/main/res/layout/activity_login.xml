@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp">
 
     <EditText
@@ -64,7 +65,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Student"/>
+
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/role_error_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#B80000"
+        android:text="@string/role_error"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group" />
 
     <Button
         android:id="@+id/login"

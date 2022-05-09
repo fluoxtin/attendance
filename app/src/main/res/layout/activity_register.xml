@@ -21,7 +21,7 @@
         android:id="@+id/name"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:hint="name"
         android:gravity="center"
         android:inputType="text"
@@ -67,7 +67,7 @@
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sex_radio_group"/>
+        app:layout_constraintTop_toBottomOf="@id/email"/>
 
     <EditText
         android:id="@+id/stu_class"
@@ -83,6 +83,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/unit"/>
 
+    <EditText
+        android:id="@+id/major"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="major"
+        android:gravity="center"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stu_class" />
+
     <RadioGroup
         android:id="@+id/sex_radio_group"
         android:layout_width="wrap_content"
@@ -91,20 +105,31 @@
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email">
+        app:layout_constraintTop_toBottomOf="@+id/major">
 
         <RadioButton
-            android:id="@+id/teacher_role"
+            android:id="@+id/male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Male" />
         <RadioButton
-            android:id="@+id/student_role"
+            android:id="@+id/female"
             android:layout_marginStart="72dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Female"/>
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/sex_error_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#B80000"
+        android:text="@string/sex_error"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sex_radio_group" />
 
     <Button
         android:id="@+id/complete"
@@ -115,12 +140,12 @@
         android:text="Complete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stu_class"
+        app:layout_constraintTop_toBottomOf="@id/sex_radio_group"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.15" />
 
     <ProgressBar
-        android:id="@+id/loading"
+        android:id="@+id/waiting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"

@@ -1,28 +1,25 @@
 package com.example.attendance
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewbinding.ViewBinding
 import com.example.attendance.databinding.ActivityLoginBinding
-import com.example.attendance.login.LoggedInUserView
 import com.example.attendance.login.LoginViewModel
-import com.example.attendance.login.LoginViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel : LoginViewModel
     private lateinit var binding: ActivityLoginBinding
-    private var role : Int = 0
+    private var role : Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
             if (loginState.passwordError != null) {
                 password.error = getString(loginState.passwordError)
             }
+
         })
 
         loginViewModel.loginResult.observe(this, Observer {
@@ -60,8 +58,12 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
             }
+            if  (it.needRegister != null) {
+                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                startActivity(intent)
+            }
             if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             }
             setResult(Activity.RESULT_OK)
             finish()
@@ -87,19 +89,21 @@ class LoginActivity : AppCompatActivity() {
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             role = when (checkedId) {
                 R.id.teacher_role -> 0
-                else -> 1
+                R.id.student_role -> 1
+                else -> -1
             }
+            if (role >= 0)
+                binding.roleErrorTip.visibility = View.GONE
         }
 
         login.setOnClickListener {
+            if (role < 0) {
+                binding.roleErrorTip.visibility = View.VISIBLE
+                return@setOnClickListener
+            }
+            loading.visibility = View.VISIBLE
             loginViewModel.login(username.text.toString(), password.text.toString(), role)
         }
-
-    }
-
-    private fun updateUiWithUser(model : LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.username
 
     }
 
@@ -107,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 
-    fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         this.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 afterTextChanged.invoke(s.toString())
