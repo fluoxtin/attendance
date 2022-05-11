@@ -5,21 +5,19 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.attendance.App
 import com.example.attendance.R
+import com.example.attendance.api.APIService
 import com.example.attendance.model.Student
 import com.example.attendance.model.Teacher
 import com.example.attendance.model.User
-import com.example.attendance.retrofit.Results
-import com.example.attendance.retrofit.RetrofitManager
-import com.example.attendance.util.SharedPreferencesUtils
-import com.google.gson.Gson
-import okhttp3.MultipartBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.attendance.api.retrofit.Results
+import com.example.attendance.api.retrofit.RetrofitManager
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState : LiveData<LoginFormState> = _loginForm
@@ -29,71 +27,57 @@ class LoginViewModel() : ViewModel() {
 
     fun login(username : String, password : String, role : Int) {
 
-
-
         val apiService = RetrofitManager.getService(APIService::class.java)
         val user = User(username, password, role)
 
         if (role == 0) {
-            apiService.registerOrLoginForTea(user)
-                .enqueue(object : Callback<Results<Teacher>> {
-                    override fun onResponse(
-                        call: Call<Results<Teacher>>,
-                        response: Response<Results<Teacher>>
-                    ) {
-                        Log.i(TAG, "onResponse: $response")
-                        response.body()?.apply {
-                            token?.let { SharedPreferencesUtils.putToken(it) }
-                            if (success == true) {
-                                val teacher = data
-                                if (teacher == null)
-                                    _loginResult.value = LoginResult(needRegister = true)
-                                else{
-                                    _loginResult.value = LoginResult(success = message)
-                                    SharedPreferencesUtils.putCurrentTeacher(teacher)
-                                }
-                                SharedPreferencesUtils.putCurrentUser(User(username, password, role))
-                            } else {
-                                _loginResult.value = LoginResult(error = response.code())
-                            }
-                        }
+            apiService.registerOrLoginForTea(user).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<Results<Teacher>> {
+                    override fun onSubscribe(d: Disposable) {
                     }
 
-                    override fun onFailure(call: Call<Results<Teacher>>, t: Throwable) {
-                        Log.i(TAG, "onFailure: ${t.message}")
+                    override fun onNext(t: Results<Teacher>) {
+                        if (t.code == 200) {
+                            if (t.data != null)
+                                _loginResult.value = LoginResult(success = "true")
+                            else _loginResult.value = LoginResult(success = "true", needRegister = true)
+                        } else
+                            _loginResult.value = LoginResult(error = t.code.toString() + " : " + t.msg)
                     }
+
+                    override fun onError(e: Throwable) {
+                        Log.i(TAG, "onError: ${e.message}")
+                    }
+
+                    override fun onComplete() {
+                    }
+
                 })
         } else {
-            apiService.registerOrLoginForStu(user)
-                .enqueue(object : Callback<Results<Any>> {
-                override fun onResponse(
-                    call: Call<Results<Any>>,
-                    response: Response<Results<Any>>
-                ) {
-                    Log.i(TAG, "onResponse: $response")
-                    response.body()?.apply {
-                        token?.let { SharedPreferencesUtils.putToken(it) }
-                        if (success == true) {
-                            Log.d(TAG, "onResponse: ${response.body().toString()}")
-                            val student = data
-                            if (student == null)
-                                _loginResult.value = LoginResult(needRegister = true)
-                            else {
-                                _loginResult.value = LoginResult(success = message)
-                                SharedPreferencesUtils.putCurrentStudent(student as Student)
-                            }
-                            SharedPreferencesUtils.putCurrentUser(User(username, password, role))
-                        } else {
-                            _loginResult.value = LoginResult(error = response.code())
-                        }
-                    }
-                }
+           apiService.registerOrLoginForStu(user).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(object : Observer<Results<Student>> {
+                   override fun onSubscribe(d: Disposable) {
+                   }
 
-                override fun onFailure(call: Call<Results<Any>>, t: Throwable) {
-                    Log.i(TAG, "onFailure: ${t.message}")
-                }
+                   override fun onNext(t: Results<Student>) {
+                        if (t.code == 200) {
+                            if (t.data != null)
+                                _loginResult.value = LoginResult(success = "true")
+                            else _loginResult.value = LoginResult(success = "true", needRegister = true)
+                        } else
+                            _loginResult.value = LoginResult(error = t.code.toString() + " " + t.msg)
+                   }
 
-            })
+                   override fun onError(e: Throwable) {
+                       Log.i(TAG, "onError: ${e.message}")
+                   }
+
+                   override fun onComplete() {
+                   }
+
+               })
         }
     }
 

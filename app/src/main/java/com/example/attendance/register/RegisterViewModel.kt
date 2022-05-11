@@ -1,18 +1,21 @@
-package com.example.attendance.login
+package com.example.attendance.register
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.attendance.R
+import com.example.attendance.api.APIService
 import com.example.attendance.model.Student
 import com.example.attendance.model.Teacher
-import com.example.attendance.retrofit.Results
-import com.example.attendance.retrofit.RetrofitManager
+import com.example.attendance.api.retrofit.Results
+import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.util.SharedPreferencesUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+
 
 class RegisterViewModel() : ViewModel() {
 
@@ -67,46 +70,44 @@ class RegisterViewModel() : ViewModel() {
     fun updateStudentInfo(student: Student) {
         val apiService = RetrofitManager.getService(APIService::class.java)
         apiService.updateStudentInfo(SharedPreferencesUtils.getToken(), student)
-            .enqueue(object : Callback<Results<Student>>{
-                override fun onResponse(
-                    call: Call<Results<Student>>,
-                    response: Response<Results<Student>>
-                ) {
-                    response.body()?.apply {
-                        if (success != null) {
-                            _registerResult.value = RegisterResult(success = message)
-                        } else
-                            _registerResult.value = RegisterResult(error = response.code())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<Student>> {
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onNext(t: Results<Student>) {
+                    t.apply {
+                        if (code == 200)
+                            _registerResult.value = RegisterResult(success = msg)
+                        else _registerResult.value = RegisterResult(error = code)
                     }
                 }
 
-                override fun onFailure(call: Call<Results<Student>>, t: Throwable) {
-                    Log.d(TAG, "onFailure: ${t.message}")
+                override fun onError(e: Throwable) {
+                    Log.e(TAG, "onError: ${e.message}", )
                 }
-        })
+
+                override fun onComplete() {
+                }
+
+            })
+
     }
 
     fun updateTeaInfo(teacher: Teacher) {
         val apiService = RetrofitManager.getService(APIService::class.java)
             apiService.updateTeacherInfo(SharedPreferencesUtils.getToken(), teacher)
-                .enqueue(object : Callback<Results<Teacher>> {
-                    override fun onResponse(
-                        call: Call<Results<Teacher>>,
-                        response: Response<Results<Teacher>>
-                    ) {
-                        response.body()?.apply {
-                            if (success != null) {
-                                _registerResult.value = RegisterResult(success = message)
-                            } else
-                                _registerResult.value = RegisterResult(error = response.code())
-                        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ t ->
+                    t?.apply {
+                        if (code == 200)
+                            _registerResult.value = RegisterResult(success = msg)
+                        else _registerResult.value = RegisterResult(error = code)
                     }
-
-                    override fun onFailure(call: Call<Results<Teacher>>, t: Throwable) {
-                        Log.d(TAG, "onFailure: ${t.message}")
-                    }
-
-                })
+                }) { t -> Log.e(TAG, "accept: $t?.message") 
+                }.dispose()
     }
 
     companion object {

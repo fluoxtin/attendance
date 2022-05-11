@@ -7,5 +7,5 @@ package com.example.attendance.login
 data class LoginResult(
     val success : String? = null,
     val needRegister : Boolean? = null,
-    val error : Int? = null
+    val error : String? = null
 )

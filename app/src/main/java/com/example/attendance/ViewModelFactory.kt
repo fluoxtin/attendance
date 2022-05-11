@@ -3,13 +3,13 @@ package com.example.attendance
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.attendance.login.LoginViewModel
-import com.example.attendance.login.RegisterViewModel
+import com.example.attendance.register.RegisterViewModel
 import java.lang.IllegalArgumentException
 
 /**
  * @author: fluoxtin created on 2022/4/23
  */
-class LoginViewModelFactory : ViewModelProvider.Factory {
+class ViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

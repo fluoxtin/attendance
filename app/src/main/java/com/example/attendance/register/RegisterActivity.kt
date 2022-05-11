@@ -1,4 +1,4 @@
-package com.example.attendance
+package com.example.attendance.register
 
 import android.app.Activity
 import android.content.Intent
@@ -10,8 +10,10 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.attendance.ViewModelFactory
+import com.example.attendance.ui.MainActivity
+import com.example.attendance.R
 import com.example.attendance.databinding.ActivityRegisterBinding
-import com.example.attendance.login.RegisterViewModel
 import com.example.attendance.model.Student
 import com.example.attendance.model.Teacher
 import com.example.attendance.util.SharedPreferencesUtils
@@ -20,7 +22,7 @@ import com.example.attendance.util.ToastUtils
 class RegisterActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityRegisterBinding
-    private lateinit var registerViewModel :RegisterViewModel
+    private lateinit var registerViewModel : RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,7 @@ class RegisterActivity : AppCompatActivity() {
 
         }
 
-        registerViewModel = ViewModelProvider(this, LoginViewModelFactory())
+        registerViewModel = ViewModelProvider(this, ViewModelFactory())
             .get(RegisterViewModel::class.java)
 
         registerViewModel.registerFormState.observe(this, Observer {

@@ -3,20 +3,23 @@ package com.example.attendance
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowInsets
+import android.util.Log
 import android.view.WindowManager
-import android.widget.LinearLayout
-import android.widget.TextView
+import com.example.attendance.api.APIService
+import com.example.attendance.api.retrofit.Results
+import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.databinding.ActivitySplashBinding
-import com.example.attendance.login.APIService
-import com.example.attendance.retrofit.RetrofitManager
+import com.example.attendance.login.LoginActivity
+import com.example.attendance.register.RegisterActivity
+import com.example.attendance.ui.MainActivity
 import com.example.attendance.util.SharedPreferencesUtils
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -33,7 +36,6 @@ class SplashActivity : AppCompatActivity() {
      * while interacting with activity UI.
      */
 
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,31 +46,34 @@ class SplashActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = resources.getColor(R.color.white)
 
-        val user = SharedPreferencesUtils.getCurrentUser()
-        val intent = when {
-            SharedPreferencesUtils.hasCurrentUserInfo() != null -> {
-                Intent(this, MainActivity::class.java)
-            }
-            user != null -> {
-                Intent(this, RegisterActivity::class.java)
-            }
-            else -> {
-                Intent(this, LoginActivity::class.java)
-            }
-        }
+        RetrofitManager.getService(APIService::class.java)
+            .isLogin().subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<Any>> {
+                override fun onSubscribe(d: Disposable) {
+                }
 
-        Handler().postDelayed({
+                override fun onNext (t: Results<Any>) {
+                    t.apply {
+                        when(code) {
+                            200 -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                            else -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                        }
+                    }
+                }
 
-            startActivity(intent)
-            finish()
-        }, 3000)
+                override fun onError(e: Throwable) {
+//                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    Log.e(TAG, "onError: ${e.message}", )
+                }
 
+                override fun onComplete() {
+                }
+            })
     }
 
 
-
-
     companion object {
-
+        const val TAG = "SplashActivity"
     }
 }

@@ -1,4 +1,4 @@
-package com.example.attendance
+package com.example.attendance.ui
 
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
@@ -13,6 +13,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.arcsoft.face.ErrorInfo
 import com.arcsoft.face.FaceEngine
 import com.arcsoft.face.VersionInfo
+import com.example.attendance.App
+import com.example.attendance.R
 import com.example.attendance.common.Constants
 import com.example.attendance.databinding.ActivityMainBinding
 import com.example.attendance.fragment.AttendanceFragment
@@ -78,7 +80,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         val titles = resources.getStringArray(R.array.tab_titles)
-        val bgs = intArrayOf(R.drawable.attendance_icon, R.drawable.report_icon, R.drawable.personal_icon)
+        val bgs = intArrayOf(
+            R.drawable.attendance_icon,
+            R.drawable.report_icon,
+            R.drawable.personal_icon
+        )
 
 
         val mediator = TabLayoutMediator(tabLayout, viewpager, true) { tab, position ->

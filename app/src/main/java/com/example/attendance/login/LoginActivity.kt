@@ -1,4 +1,4 @@
-package com.example.attendance
+package com.example.attendance.login
 
 import android.app.Activity
 import android.content.Intent
@@ -12,8 +12,11 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.attendance.ViewModelFactory
+import com.example.attendance.ui.MainActivity
+import com.example.attendance.R
+import com.example.attendance.register.RegisterActivity
 import com.example.attendance.databinding.ActivityLoginBinding
-import com.example.attendance.login.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -35,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
         val loading = binding.loading
         val radioGroup = binding.radioGroup
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
+        loginViewModel = ViewModelProvider(this, ViewModelFactory())
             .get(LoginViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
@@ -107,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun showLoginFailed(@StringRes errorString : Int) {
+    private fun showLoginFailed( errorString : String) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 

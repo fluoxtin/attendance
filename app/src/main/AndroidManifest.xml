@@ -30,19 +30,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".register.RegisterActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
 
         </activity>

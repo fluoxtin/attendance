@@ -1,13 +1,10 @@
-package com.example.attendance.login
+package com.example.attendance.api
 
 import com.example.attendance.model.Student
 import com.example.attendance.model.Teacher
 import com.example.attendance.model.User
-import com.example.attendance.retrofit.Results
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Response
+import com.example.attendance.api.retrofit.Results
+import io.reactivex.Observable
 import retrofit2.http.*
 
 /**
@@ -16,23 +13,26 @@ import retrofit2.http.*
 interface APIService {
 
 
-    @POST("login")
-    fun registerOrLoginForTea(@Body user: User) : Call<Results<Teacher>>
+    @POST("teacher/login")
+    fun registerOrLoginForTea(@Body user: User) : Observable<Results<Teacher>>
 
-    @POST("login")
+    @POST("student/login")
     fun registerOrLoginForStu(
         @Body user: User
-    ) : Call<Results<Any>>
+    ) : Observable<Results<Student>>
 
     @POST("student/update")
     fun updateStudentInfo(
         @Header("token") token : String,
         @Body student: Student
-    ) : Call<Results<Student>>
+    ) : Observable<Results<Student>>
 
     @POST("teacher/update")
     fun updateTeacherInfo(
         @Header("token") token: String,
         @Body teacher: Teacher
-    ) : Call<Results<Teacher>>
+    ) : Observable<Results<Teacher>>
+
+    @POST("islogin")
+    fun isLogin() : Observable<Results<Any>>
 }
