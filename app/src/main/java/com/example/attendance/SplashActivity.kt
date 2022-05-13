@@ -59,11 +59,13 @@ class SplashActivity : AppCompatActivity() {
                             200 -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                             else -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                         }
+                        finish()
                     }
                 }
 
                 override fun onError(e: Throwable) {
-//                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    finish()
                     Log.e(TAG, "onError: ${e.message}", )
                 }
 

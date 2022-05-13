@@ -17,9 +17,9 @@ import com.example.attendance.App
 import com.example.attendance.R
 import com.example.attendance.common.Constants
 import com.example.attendance.databinding.ActivityMainBinding
-import com.example.attendance.fragment.AttendanceFragment
-import com.example.attendance.fragment.PersonalPageFragment
-import com.example.attendance.fragment.ReportFragment
+import com.example.attendance.ui.attendance.AttendanceFragment
+import com.example.attendance.ui.personal.PersonalPageFragment
+import com.example.attendance.ui.report.ReportFragment
 import com.example.attendance.util.ToastUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -173,49 +173,6 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    /**
-     * 检查能否找到动态链接库，如果找不到，请修改工程配置
-     *
-     * @param libraries 需要的动态链接库
-     * @return 动态库是否存在
-     */
-//    private fun checkSoFile(libraries : ArrayList<String>) : Boolean {
-//        val dir = File(applicationInfo.nativeLibraryDir)
-//        Log.d(TAG, "checkSoFile: $dir")
-//        val files = dir.listFiles()
-//        if (files == null || files.isEmpty()) {
-//            return false
-//        }
-//        val libraryNameList: MutableList<String> = ArrayList()
-//        for (file in files) {
-//            libraryNameList.add(file.name)
-//        }
-//        return libraryNameList.containsAll(libraries)
-//    }
-
-//    private fun checkSoFile(libraries: ArrayList<String>): Boolean {
-//        val dir = File(applicationInfo.nativeLibraryDir)
-//        Log.d(TAG,
-//            "checkSoFile: " + dir.absolutePath
-//        )
-//        val files = dir.listFiles()
-//        if (files == null || files.isEmpty()) {
-//            return false
-//        }
-//        val libraryNameList: MutableList<String> = java.util.ArrayList()
-//        for (file in files) {
-//            Log.d(
-//                TAG,
-//                "checkSoFile: " + file.name
-//            )
-//            libraryNameList.add(file.name)
-//        }
-//        var exists = true
-//        for (library in libraries) {
-//            exists = exists and libraryNameList.contains(library)
-//        }
-//        return exists
-//    }
 
     private fun checkPermissions(neededPermissions: Array<String>?): Boolean {
         if (neededPermissions == null || neededPermissions.isEmpty()) {
@@ -223,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         }
         var allGranted = true
         for (neededPermission in neededPermissions) {
-            allGranted = allGranted and (ContextCompat.checkSelfPermission(
+            allGranted = allGranted && (ContextCompat.checkSelfPermission(
                 this,
                 neededPermission!!
             ) === PackageManager.PERMISSION_GRANTED)

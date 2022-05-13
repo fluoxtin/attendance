@@ -9,10 +9,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.StringRes
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.attendance.ViewModelFactory
 import com.example.attendance.ui.MainActivity
 import com.example.attendance.R
 import com.example.attendance.register.RegisterActivity
@@ -20,7 +18,7 @@ import com.example.attendance.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel : LoginViewModel
+    private val loginViewModel by viewModels<LoginViewModel>()
     private lateinit var binding: ActivityLoginBinding
     private var role : Int = -1
 
@@ -37,9 +35,6 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
         val radioGroup = binding.radioGroup
-
-        loginViewModel = ViewModelProvider(this, ViewModelFactory())
-            .get(LoginViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer

@@ -129,4 +129,12 @@ object SharedPreferencesUtils {
             else -> null
         }
     }
+
+    fun getCurrentUserRole() : Int {
+        getCurrentUser()?.apply {
+            return role
+        }
+
+        return -1
+    }
 }

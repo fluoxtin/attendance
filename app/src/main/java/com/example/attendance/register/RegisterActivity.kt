@@ -8,9 +8,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.attendance.ViewModelFactory
 import com.example.attendance.ui.MainActivity
 import com.example.attendance.R
 import com.example.attendance.databinding.ActivityRegisterBinding
@@ -18,11 +18,13 @@ import com.example.attendance.model.Student
 import com.example.attendance.model.Teacher
 import com.example.attendance.util.SharedPreferencesUtils
 import com.example.attendance.util.ToastUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityRegisterBinding
-    private lateinit var registerViewModel : RegisterViewModel
+    private val registerViewModel by viewModels<RegisterViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +54,6 @@ class RegisterActivity : AppCompatActivity() {
             }
 
         }
-
-        registerViewModel = ViewModelProvider(this, ViewModelFactory())
-            .get(RegisterViewModel::class.java)
 
         registerViewModel.registerFormState.observe(this, Observer {
 

@@ -7,8 +7,10 @@
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_main.xml" value="0.19351570415400202" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/attendance_record_item.xml" value="0.19199594731509625" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/bottom_tab_layout.xml" value="0.16393442622950818" />
-        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_attendance.xml" value="0.264" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/course_item.xml" value="0.19351570415400202" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_attendance.xml" value="0.19708029197080293" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_personal_page.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_report.xml" value="0.4" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/tap_layout.xml" value="0.3388888888888889" />
@@ -16,7 +18,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

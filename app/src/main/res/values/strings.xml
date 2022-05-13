@@ -1,17 +1,22 @@
 <resources>
     <string name="app_name">Attendance</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be > 5 characters</string>
-    <string name="role_error">please choose your role</string>
-    <string name="sex_error">please choose your sex</string>
-    <string name="welcome">Welcome !</string>
-    <string name="login_failed">Login failed !</string>
-    <string name="name_error">please input your real name</string>
-    <string name="phone_error">please input your phone number</string>
-    <string name="email_error">please input your email</string>
-    <string name="unit_error">please input your unit</string>
-    <string name="class_error">please input your class</string>
-    <string name="major_error">please input your major</string>
+    <string name="username">学号/工号</string>
+    <string name="password">密码</string>
+    <string name="sign_in_or_register">登录/注册</string>
+    <string name="invalid_username">用户名不合法</string>
+    <string name="invalid_password">密码至少包含6个字符</string>
+    <string name="role_error">请选择您的账号角色</string>
+    <string name="sex_error">请选择您的性别</string>
+    <string name="welcome">欢迎 !</string>
+    <string name="login_failed">登录失败!！</string>
+    <string name="name_error">请输入真实姓名</string>
+    <string name="phone_error">请输入手机号</string>
+    <string name="email_error">请输入有效</string>
+    <string name="tea_unit_error">请输入办公室位置</string>
+    <string name="class_error">请输入班级</string>
+    <string name="major_error">请输入你的专业</string>
+    <string name="welcome_user">Hi, %1$s</string>
+    <string name="class_number_tip">今天你有%1$d门课，记得准时上课哦！</string>
     <string-array name="tab_titles">
         <item>Attendance</item>
         <item>Report</item>

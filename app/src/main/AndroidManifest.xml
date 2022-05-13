@@ -7,6 +7,12 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 网络定位   -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--  GPS 定位  -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
 
     <application
         android:name=".App"
@@ -46,6 +52,15 @@
             android:exported="true">
 
         </activity>
+
+
+        <!--   百度AK     -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="m7QuXsv7wZGoFM7sWDXzGEGr6GT7BXng" >
+        </meta-data>
     </application>
+
+
 
 </manifest>

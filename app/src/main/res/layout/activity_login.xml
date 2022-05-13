@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
-        android:hint="username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="password"
+        android:hint="@string/password"
         android:imeActionLabel="Sign in"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
@@ -58,13 +58,13 @@
             android:id="@+id/teacher_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Teacher" />
+            android:text="教师" />
         <RadioButton
             android:id="@+id/student_role"
             android:layout_marginStart="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Student"/>
+            android:text="学生"/>
 
     </RadioGroup>
 
@@ -85,23 +85,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:enabled="false"
-        android:text="Sign in or register"
+        android:text="@string/sign_in_or_register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.2" />
-
-<!--    <Button-->
-<!--        android:id="@+id/register"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:enabled="false"-->
-<!--        android:text="register"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/login"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
     <ProgressBar
         android:id="@+id/loading"

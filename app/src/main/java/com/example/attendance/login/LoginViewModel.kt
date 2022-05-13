@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.attendance.R
 import com.example.attendance.api.APIService
+import com.example.attendance.api.StudentAPI
+import com.example.attendance.api.TeacherAPI
 import com.example.attendance.model.Student
 import com.example.attendance.model.Teacher
 import com.example.attendance.model.User
@@ -27,57 +29,11 @@ class LoginViewModel : ViewModel() {
 
     fun login(username : String, password : String, role : Int) {
 
-        val apiService = RetrofitManager.getService(APIService::class.java)
         val user = User(username, password, role)
-
         if (role == 0) {
-            apiService.registerOrLoginForTea(user).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Results<Teacher>> {
-                    override fun onSubscribe(d: Disposable) {
-                    }
-
-                    override fun onNext(t: Results<Teacher>) {
-                        if (t.code == 200) {
-                            if (t.data != null)
-                                _loginResult.value = LoginResult(success = "true")
-                            else _loginResult.value = LoginResult(success = "true", needRegister = true)
-                        } else
-                            _loginResult.value = LoginResult(error = t.code.toString() + " : " + t.msg)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.i(TAG, "onError: ${e.message}")
-                    }
-
-                    override fun onComplete() {
-                    }
-
-                })
+            loginForT(user)
         } else {
-           apiService.registerOrLoginForStu(user).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(object : Observer<Results<Student>> {
-                   override fun onSubscribe(d: Disposable) {
-                   }
-
-                   override fun onNext(t: Results<Student>) {
-                        if (t.code == 200) {
-                            if (t.data != null)
-                                _loginResult.value = LoginResult(success = "true")
-                            else _loginResult.value = LoginResult(success = "true", needRegister = true)
-                        } else
-                            _loginResult.value = LoginResult(error = t.code.toString() + " " + t.msg)
-                   }
-
-                   override fun onError(e: Throwable) {
-                       Log.i(TAG, "onError: ${e.message}")
-                   }
-
-                   override fun onComplete() {
-                   }
-
-               })
+           loginForS(user)
         }
     }
 
@@ -101,6 +57,60 @@ class LoginViewModel : ViewModel() {
 
     private fun isPasswordValid(password: String) : Boolean {
         return password.length > 5
+    }
+
+    private fun loginForT(user : User) {
+        RetrofitManager.getService(TeacherAPI::class.java)
+            .registerOrLoginForTea(user)
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<Teacher>> {
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onNext(t: Results<Teacher>) {
+                    if (t.code == 200) {
+                        if (t.data != null)
+                            _loginResult.value = LoginResult(success = "true")
+                        else _loginResult.value = LoginResult(success = "true", needRegister = true)
+                    } else
+                        _loginResult.value = LoginResult(error = t.code.toString() + " : " + t.msg)
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.i(TAG, "onError: ${e.message}")
+                }
+
+                override fun onComplete() {
+                }
+            })
+    }
+
+    private fun loginForS(user : User) {
+        RetrofitManager.getService(StudentAPI::class.java)
+            .registerOrLoginForStu(user).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<Student>> {
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onNext(t: Results<Student>) {
+                    if (t.code == 200) {
+                        if (t.data != null)
+                            _loginResult.value = LoginResult(success = "true")
+                        else _loginResult.value = LoginResult(success = "true", needRegister = true)
+                    } else
+                        _loginResult.value = LoginResult(error = t.code.toString() + " " + t.msg)
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.i(TAG, "onError: ${e.message}")
+                }
+
+                override fun onComplete() {
+                }
+
+            })
     }
 
     companion object {

@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.attendance.R
-import com.example.attendance.api.APIService
+import com.example.attendance.api.StudentAPI
+import com.example.attendance.api.TeacherAPI
 import com.example.attendance.model.Student
 import com.example.attendance.model.Teacher
 import com.example.attendance.api.retrofit.Results
@@ -16,8 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-
-class RegisterViewModel() : ViewModel() {
+class RegisterViewModel : ViewModel() {
 
     private val _registerFormState = MutableLiveData<RegisterFormState>()
     val registerFormState : LiveData<RegisterFormState> = _registerFormState
@@ -48,7 +48,7 @@ class RegisterViewModel() : ViewModel() {
 
     fun unitDataChanged(unit : String) {
         _registerFormState.value = when {
-            unit.isBlank() -> RegisterFormState(unitError = R.string.unit_error)
+            unit.isBlank() -> RegisterFormState(unitError = R.string.tea_unit_error)
             else -> RegisterFormState(unitError = null)
         }
     }
@@ -68,7 +68,7 @@ class RegisterViewModel() : ViewModel() {
     }
 
     fun updateStudentInfo(student: Student) {
-        val apiService = RetrofitManager.getService(APIService::class.java)
+        val apiService = RetrofitManager.getService(StudentAPI::class.java)
         apiService.updateStudentInfo(SharedPreferencesUtils.getToken(), student)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -92,11 +92,10 @@ class RegisterViewModel() : ViewModel() {
                 }
 
             })
-
     }
 
     fun updateTeaInfo(teacher: Teacher) {
-        val apiService = RetrofitManager.getService(APIService::class.java)
+        val apiService = RetrofitManager.getService(TeacherAPI::class.java)
             apiService.updateTeacherInfo(SharedPreferencesUtils.getToken(), teacher)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
