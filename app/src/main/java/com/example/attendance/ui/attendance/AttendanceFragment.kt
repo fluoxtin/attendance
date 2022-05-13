@@ -34,13 +34,13 @@ class AttendanceFragment : Fragment() {
         viewModel.currentUser.observe(viewLifecycleOwner) {
             it?.apply {
                 if (role == 0) {
-                    viewModel.getTeacherInfo(username)
-                    viewModel.getTeacherCourse(username)
+                    viewModel.getTeacherInfo()
+                    viewModel.getTeacherCourse()
                 } else if (role == 1) {
-                    viewModel.getStudentInfo(username)
-                    viewModel.getStudentCourse(username)
+                    viewModel.getStudentInfo()
+                    viewModel.getStudentCourse()
                     viewModel.start()
-                    viewModel.getTaskForS(username)
+                    viewModel.getTaskForS()
                 }
             }
         }

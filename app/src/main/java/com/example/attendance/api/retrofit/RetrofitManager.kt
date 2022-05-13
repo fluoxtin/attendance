@@ -14,7 +14,7 @@ object  RetrofitManager {
 
     const val TAG = "RetrofitManager"
 
-    private const val BASE_URL = "http://39.101.128.27:8802/api/"
+    private const val BASE_URL = "http://39.101.128.27:8802/"
 
     private val headInterceptor = Interceptor { chain ->
         val request = chain.request().newBuilder()

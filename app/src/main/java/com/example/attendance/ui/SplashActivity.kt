@@ -1,21 +1,19 @@
-package com.example.attendance
+package com.example.attendance.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
+import com.example.attendance.R
 import com.example.attendance.api.APIService
 import com.example.attendance.api.retrofit.Results
 import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.databinding.ActivitySplashBinding
 import com.example.attendance.login.LoginActivity
-import com.example.attendance.register.RegisterActivity
-import com.example.attendance.ui.MainActivity
+import com.example.attendance.model.User
 import com.example.attendance.util.SharedPreferencesUtils
-import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -47,16 +45,20 @@ class SplashActivity : AppCompatActivity() {
         window.statusBarColor = resources.getColor(R.color.white)
 
         RetrofitManager.getService(APIService::class.java)
-            .isLogin().subscribeOn(Schedulers.io())
+            .isLogin()
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<Results<Any>> {
+            .subscribe(object : Observer<Results<User>> {
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext (t: Results<Any>) {
+                override fun onNext (t: Results<User>) {
                     t.apply {
                         when(code) {
-                            200 -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                            200 -> {
+                                data?.apply { SharedPreferencesUtils.putCurrentUser(this) }
+                                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                            }
                             else -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                         }
                         finish()

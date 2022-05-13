@@ -23,14 +23,10 @@ interface TeacherAPI {
     ) : Observable<Results<Teacher>>
 
     @POST("teacher/getInfo")
-    fun getTeacherInfo(
-        @Field("tea_id") tea_id : String
-    ) : Observable<Results<Teacher>>
+    fun getTeacherInfo() : Observable<Results<Teacher>>
 
     @POST("teacher/getcourses")
-    fun getCourses(
-        @Field("tea_id") tea_id: String
-    ) : Observable<Results<List<Course>>>
+    fun getCourses() : Observable<Results<List<Course>>>
 
     @POST("teacher/posttask")
     fun postTask(

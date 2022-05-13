@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.attendance.api.APIService
 import com.example.attendance.api.StudentAPI
 import com.example.attendance.api.TeacherAPI
 import com.example.attendance.api.retrofit.Results
@@ -16,6 +17,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import java.util.concurrent.TimeUnit
 
 class AttendViewModel : ViewModel() {
@@ -38,14 +41,15 @@ class AttendViewModel : ViewModel() {
     var compositeDisposable = CompositeDisposable()
 
     init {
+
         SharedPreferencesUtils.getCurrentUser()?.apply {
             _currentUser.value = this
         }
     }
 
-    fun getTeacherInfo(tea_id : String) {
+    fun getTeacherInfo() {
         RetrofitManager.getService(TeacherAPI::class.java)
-            .getTeacherInfo(tea_id)
+            .getTeacherInfo()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<Teacher>> {
@@ -69,9 +73,9 @@ class AttendViewModel : ViewModel() {
             })
     }
 
-    fun getStudentInfo(stu_id : String) {
+    fun getStudentInfo() {
         RetrofitManager.getService(StudentAPI::class.java)
-            .getStudentInfo(stu_id)
+            .getStudentInfo()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<Student>> {
@@ -91,18 +95,18 @@ class AttendViewModel : ViewModel() {
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.e(TAG, "onError: ${e.message}")
+                    Log.e(TAG, "getStudentInfo onError: ${e.message}")
                 }
 
                 override fun onComplete() {}
             })
     }
 
-    fun getStudentCourse(id : String) {
+    fun getStudentCourse() {
         RetrofitManager.getService(StudentAPI::class.java)
-            .getCourses(id)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .getCourses()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<List<Course>>> {
                 override fun onSubscribe(d: Disposable) {}
 
@@ -117,18 +121,18 @@ class AttendViewModel : ViewModel() {
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.e(TAG, "onError: ${e.message}")
+                    Log.e(TAG, "getStudentCourse onError: ${e.message}")
                 }
 
                 override fun onComplete() {}
             })
     }
 
-    fun getTeacherCourse(id : String) {
+    fun getTeacherCourse() {
         RetrofitManager.getService(TeacherAPI::class.java)
-            .getCourses(id)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .getCourses()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<List<Course>>> {
                 override fun onSubscribe(d: Disposable) {}
 
@@ -150,8 +154,8 @@ class AttendViewModel : ViewModel() {
     fun postTask(task : AttendTask) {
         RetrofitManager.getService(TeacherAPI::class.java)
             .postTask(task)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<Any>> {
                 override fun onSubscribe(d: Disposable) {}
 
@@ -169,15 +173,16 @@ class AttendViewModel : ViewModel() {
             })
     }
 
-    fun getTaskForS(id : String) {
+    fun getTaskForS() {
         compositeDisposable.add(
-            Observable.interval(3, TimeUnit.MINUTES)
+            Observable.interval(0,3, TimeUnit.MINUTES)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    RetrofitManager.getService(StudentAPI::class.java).getTask(id)
-                        .observeOn(Schedulers.io())
-                        .subscribeOn(AndroidSchedulers.mainThread())
+                    RetrofitManager.getService(StudentAPI::class.java)
+                        .getTask()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(object : Observer<Results<AttendTask>> {
                             override fun onSubscribe(d: Disposable) {}
 
@@ -188,7 +193,7 @@ class AttendViewModel : ViewModel() {
                             }
 
                             override fun onError(e: Throwable) {
-                                Log.e(TAG, "onError: ${e.message}")
+                                Log.e(TAG, "getTask onError: ${e.message}")
                             }
 
                             override fun onComplete() {}

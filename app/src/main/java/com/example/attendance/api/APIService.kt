@@ -12,7 +12,7 @@ import retrofit2.http.*
  */
 interface APIService {
 
-    @POST("islogin")
-    fun isLogin() : Observable<Results<Any>>
+    @POST("/api/islogin")
+    fun isLogin() : Observable<Results<User>>
 
 }

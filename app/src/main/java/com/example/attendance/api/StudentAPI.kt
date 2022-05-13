@@ -6,10 +6,7 @@ import com.example.attendance.model.Course
 import com.example.attendance.model.Student
 import com.example.attendance.model.User
 import io.reactivex.Observable
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface StudentAPI {
 
@@ -24,19 +21,13 @@ interface StudentAPI {
         @Body student: Student
     ) : Observable<Results<Student>>
 
-    @POST("student/getInfo")
-    fun getStudentInfo(
-        @Field("stu_id") stu_id : String
-    ) : Observable<Results<Student>>
+    @POST("student/getinfo")
+    fun getStudentInfo() : Observable<Results<Student>>
 
     @POST("student/getcourses")
-    fun getCourses(
-        @Field("stu_id") stu_id: String
-    ) : Observable<Results<List<Course>>>
+    fun getCourses() : Observable<Results<List<Course>>>
 
     @POST("student/gettask")
-    fun getTask(
-        @Field("stu_id") stu_id: String
-    ) : Observable<Results<AttendTask>>
+    fun getTask() : Observable<Results<AttendTask>>
 
 }

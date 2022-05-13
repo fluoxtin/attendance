@@ -62,8 +62,8 @@ class LoginViewModel : ViewModel() {
     private fun loginForT(user : User) {
         RetrofitManager.getService(TeacherAPI::class.java)
             .registerOrLoginForTea(user)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<Teacher>> {
                 override fun onSubscribe(d: Disposable) {
                 }
@@ -88,7 +88,8 @@ class LoginViewModel : ViewModel() {
 
     private fun loginForS(user : User) {
         RetrofitManager.getService(StudentAPI::class.java)
-            .registerOrLoginForStu(user).subscribeOn(Schedulers.io())
+            .registerOrLoginForStu(user)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<Student>> {
                 override fun onSubscribe(d: Disposable) {
