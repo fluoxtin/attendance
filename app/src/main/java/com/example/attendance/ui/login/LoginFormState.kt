@@ -1,4 +1,4 @@
-package com.example.attendance.login
+package com.example.attendance.ui.login
 
 /**
  *  @author fluoxtin created on 22/4/23

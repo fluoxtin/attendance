@@ -1,4 +1,4 @@
-package com.example.attendance.register
+package com.example.attendance.ui.register
 
 data class RegisterFormState(
     val nameError : Int? = null,

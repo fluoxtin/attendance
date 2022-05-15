@@ -1,4 +1,4 @@
-package com.example.attendance.register
+package com.example.attendance.ui.register
 
 import android.util.Log
 import androidx.lifecycle.LiveData

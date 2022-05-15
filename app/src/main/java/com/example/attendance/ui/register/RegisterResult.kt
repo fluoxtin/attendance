@@ -1,4 +1,4 @@
-package com.example.attendance.register
+package com.example.attendance.ui.register
 
 data class RegisterResult(
     val success : String? = null,

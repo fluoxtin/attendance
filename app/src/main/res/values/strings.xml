@@ -17,6 +17,7 @@
     <string name="major_error">请输入你的专业</string>
     <string name="welcome_user">Hi, %1$s</string>
     <string name="class_number_tip">今天你有%1$d门课，记得准时上课哦！</string>
+    <string name="specific_engine_init_failed">%s 初始化失败，错误码为: %d</string>
     <string-array name="tab_titles">
         <item>Attendance</item>
         <item>Report</item>

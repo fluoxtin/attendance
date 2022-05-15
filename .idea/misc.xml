@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/drawable/round_rectangle.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_main.xml" value="0.19351570415400202" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_recognize_face.xml" value="0.19351570415400202" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/attendance_record_item.xml" value="0.19199594731509625" />

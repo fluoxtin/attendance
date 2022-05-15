@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                         else ->
                             ToastUtils.showShortToast("active failed $t")
                     }
-                    Log.d(TAG, "onNext: $t")
+                    Log.d(App.TAG, "onNext: $t")
                 }
 
                 override fun onError(e: Throwable) {
@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity() {
             allGranted = allGranted && (ContextCompat.checkSelfPermission(
                 this,
                 neededPermission!!
-            ) === PackageManager.PERMISSION_GRANTED)
+            ) == PackageManager.PERMISSION_GRANTED)
         }
         return allGranted
     }

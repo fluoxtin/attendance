@@ -1,4 +1,4 @@
-package com.example.attendance.login
+package com.example.attendance.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -13,7 +13,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.attendance.ui.MainActivity
 import com.example.attendance.R
-import com.example.attendance.register.RegisterActivity
+import com.example.attendance.ui.register.RegisterActivity
 import com.example.attendance.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {

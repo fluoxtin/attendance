@@ -1,4 +1,4 @@
-package com.example.attendance.register
+package com.example.attendance.ui.register
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.attendance.ui.MainActivity
 import com.example.attendance.R
 import com.example.attendance.databinding.ActivityRegisterBinding

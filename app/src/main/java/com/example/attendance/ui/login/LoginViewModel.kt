@@ -1,4 +1,4 @@
-package com.example.attendance.login
+package com.example.attendance.ui.login
 
 import android.util.Log
 import android.util.Patterns
@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.attendance.R
-import com.example.attendance.api.APIService
 import com.example.attendance.api.StudentAPI
 import com.example.attendance.api.TeacherAPI
 import com.example.attendance.model.Student

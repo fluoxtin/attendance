@@ -11,7 +11,7 @@ import com.example.attendance.api.APIService
 import com.example.attendance.api.retrofit.Results
 import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.databinding.ActivitySplashBinding
-import com.example.attendance.login.LoginActivity
+import com.example.attendance.ui.login.LoginActivity
 import com.example.attendance.model.User
 import com.example.attendance.util.SharedPreferencesUtils
 import io.reactivex.Observer
