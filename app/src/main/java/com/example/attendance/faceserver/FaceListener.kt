@@ -31,7 +31,7 @@ interface FaceListener {
      */
     fun onFaceLivenessInfoGet(
         @Nullable livenessInfo: LivenessInfo?,
-        requestId: Int?,
+        requestId: Int,
         errorCode: Int?
     )
 

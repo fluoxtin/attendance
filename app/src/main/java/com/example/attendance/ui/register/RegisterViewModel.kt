@@ -1,6 +1,7 @@
 package com.example.attendance.ui.register
 
 import android.util.Log
+import androidx.core.content.contentValuesOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -69,7 +70,7 @@ class RegisterViewModel : ViewModel() {
 
     fun updateStudentInfo(student: Student) {
         val apiService = RetrofitManager.getService(StudentAPI::class.java)
-        apiService.updateStudentInfo(SharedPreferencesUtils.getToken(), student)
+        apiService.updateStudentInfo(student)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Results<Student>> {
@@ -95,18 +96,40 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun updateTeaInfo(teacher: Teacher) {
-        val apiService = RetrofitManager.getService(TeacherAPI::class.java)
-            apiService.updateTeacherInfo(SharedPreferencesUtils.getToken(), teacher)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t ->
-                    t?.apply {
-                        if (code == 200)
-                            _registerResult.value = RegisterResult(success = msg)
-                        else _registerResult.value = RegisterResult(error = code)
-                    }
-                }) { t -> Log.e(TAG, "accept: $t?.message") 
-                }.dispose()
+//        val apiService = RetrofitManager.getService(TeacherAPI::class.java)
+//            apiService.updateTeacherInfo(teacher)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({ t ->
+//                    t?.apply {
+//                        if (code == 200)
+//                            _registerResult.value = RegisterResult(success = msg)
+//                        else _registerResult.value = RegisterResult(error = code)
+//                    }
+//                }) { t -> Log.e(TAG, "accept: $t?.message")
+//                }.dispose()
+        RetrofitManager.getService(TeacherAPI::class.java)
+            .updateTeacherInfo(teacher)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<Teacher>> {
+                override fun onSubscribe(d: Disposable) {}
+
+                override fun onNext(t: Results<Teacher>) {
+                    if (t.code == 200) {
+                        _registerResult.value = RegisterResult(success = t.msg)
+                    } else
+                        _registerResult.value = RegisterResult(error = t.code, errorMsg = t.msg)
+                }
+
+                override fun onError(e: Throwable) {
+                    _registerResult.value = RegisterResult(errorMsg = e.message)
+                }
+
+                override fun onComplete() {
+                }
+
+            })
     }
 
     companion object {

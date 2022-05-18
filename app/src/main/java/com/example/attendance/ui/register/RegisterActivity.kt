@@ -19,32 +19,28 @@ import com.example.attendance.util.SharedPreferencesUtils
 import com.example.attendance.util.ToastUtils
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityRegisterBinding
     private val registerViewModel by viewModels<RegisterViewModel>()
 
+    private var sex = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val name = binding.name
-        val phone = binding.phoneNum
-        val email = binding.email
-        val unit = binding.unit
-        var sex : String = ""
-        val stuClass = binding.stuClass
-        val major = binding.major
-        val radioGroup = binding.sexRadioGroup
-        val complete = binding.complete
+        when(SharedPreferencesUtils.getCurrentUserRole()) {
+            0 -> initViewForT()
+            1 -> initVewForS()
+            else -> ToastUtils.showShortToast("undefined role")
+        }
 
-        radioGroup.setOnCheckedChangeListener { _, checkId ->
+        binding.sexRadioGroup.setOnCheckedChangeListener { _, checkId ->
             sex = when(checkId) {
-                R.id.male -> "male"
-                R.id.female -> "female"
+                R.id.male -> "男"
+                R.id.female -> "女"
                 else -> ""
             }
 
@@ -57,12 +53,12 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.registerFormState.observe(this, Observer {
 
             when {
-                it.nameError != null -> name.error = getString(it.nameError)
-                it.phoneError != null -> phone.error = getString(it.phoneError)
-                it.emailError != null -> email.error = getString(it.emailError)
-                it.unitError != null -> unit.error = getString(it.unitError)
-                it.stuClassError != null -> stuClass.error = getString(it.stuClassError)
-                it.majorError != null -> major.error = getString(it.majorError)
+                it.nameError != null -> binding.name.error = getString(it.nameError)
+                it.phoneError != null -> binding.phoneNum.error = getString(it.phoneError)
+                it.emailError != null -> binding.email.error = getString(it.emailError)
+                it.unitError != null -> binding.unit.error = getString(it.unitError)
+                it.stuClassError != null -> binding.stuClass.error = getString(it.stuClassError)
+                it.majorError != null -> binding.major.error = getString(it.majorError)
 
                 else -> binding.complete.isEnabled = true
             }
@@ -84,60 +80,71 @@ class RegisterActivity : AppCompatActivity() {
 
         })
 
-        name.afterTextChanged {
+        binding.name.afterTextChanged {
             registerViewModel.nameDataChanged(it)
         }
 
-        phone.afterTextChanged {
+        binding.phoneNum.afterTextChanged {
             registerViewModel.phoneDataChanged(it)
         }
 
-        email.afterTextChanged {
+        binding.email.afterTextChanged {
             registerViewModel.emailDataChanged(it)
         }
 
-        unit.afterTextChanged { registerViewModel.unitDataChanged(it) }
+        binding.unit.afterTextChanged { registerViewModel.unitDataChanged(it) }
 
-        stuClass.afterTextChanged { registerViewModel.classDataChanged(it) }
 
-        major.afterTextChanged { registerViewModel.majorDataChanged(it) }
+    }
+
+    private fun initViewForT() {
+
+        binding.stuClass.visibility = View.GONE
+        binding.major.visibility = View.GONE
 
         binding.complete.setOnClickListener {
-            if (sex.isBlank()) {
-                binding.sexErrorTip.visibility = View.VISIBLE
-                return@setOnClickListener
-            }
-            binding.waiting.visibility = View.VISIBLE
             SharedPreferencesUtils.getCurrentUser()?.apply {
-                if (role == 0) {
-                    val teacher = Teacher(
-                        this.username,
-                        name.text.toString(),
-                        sex,
-                        phone.text.toString(),
-                        email.text.toString(),
-                        unit.text.toString()
-                    )
-                    registerViewModel.updateTeaInfo(teacher)
-                } else {
-                    val student = Student(
-                        this.username,
-                        name.text.toString(),
-                        sex,
-                        phone.text.toString(),
-                        email.text.toString(),
-                        unit.text.toString(),
-                        stuClass.text.toString(),
-                        major.text.toString()
-                    )
-                    registerViewModel.updateStudentInfo(student)
-                }
+                val teacher = Teacher(
+                    username,
+                    binding.name.text.toString(),
+                    sex,
+                    binding.phoneNum.text.toString(),
+                    binding.email.text.toString(),
+                    binding.unit.text.toString()
+                )
+                registerViewModel.updateTeaInfo(teacher)
             }
         }
+    }
 
+    private fun initVewForS() {
 
+        binding.stuClass.visibility = View.VISIBLE
+        binding.major.visibility = View.VISIBLE
 
+        binding.stuClass.afterTextChanged {
+            registerViewModel.classDataChanged(it)
+        }
 
+        binding.major.afterTextChanged {
+            registerViewModel.majorDataChanged(it)
+        }
+
+        binding.complete.setOnClickListener {
+            SharedPreferencesUtils.getCurrentUser()?.apply {
+                val student = Student(
+                    username,
+                    binding.name.text.toString(),
+                    sex,
+                    binding.phoneNum.text.toString(),
+                    binding.email.text.toString(),
+                    binding.unit.text.toString(),
+                    binding.stuClass.text.toString(),
+                    binding.major.text.toString()
+                )
+                registerViewModel.updateStudentInfo(student)
+            }
+        }
     }
 
     private fun EditText.afterTextChanged(afterTextChanged : (String) -> Unit) {

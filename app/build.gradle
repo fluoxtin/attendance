@@ -86,5 +86,7 @@ dependencies {
 
     // 基础定位组件
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
+    // 检索组件
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Search:7.4.0'
 
 }

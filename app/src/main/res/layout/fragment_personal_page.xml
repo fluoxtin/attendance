@@ -96,15 +96,15 @@
             android:textSize="22sp"
             />
 
-        <TextView
-            android:id="@+id/about"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:padding="8dp"
-            android:text="关于"
-            android:textSize="22sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/about"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:background="@color/white"-->
+<!--            android:padding="8dp"-->
+<!--            android:text="关于"-->
+<!--            android:textSize="22sp" />-->
 
         <Button
             android:id="@+id/logout"
@@ -117,8 +117,5 @@
             android:text="退出登录" />
 
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

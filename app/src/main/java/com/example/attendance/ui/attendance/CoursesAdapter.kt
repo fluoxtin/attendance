@@ -1,6 +1,8 @@
 package com.example.attendance.ui.attendance
 
+import android.view.ContextMenu
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,6 +11,8 @@ import com.example.attendance.databinding.CourseItemBinding
 import com.example.attendance.model.Course
 
 class CoursesAdapter : ListAdapter<Course, CoursesAdapter.CourseViewHolder>(CALLBACK) {
+
+    var course : Course? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         return CourseViewHolder(
@@ -20,6 +24,13 @@ class CoursesAdapter : ListAdapter<Course, CoursesAdapter.CourseViewHolder>(CALL
         getItem(position).let {
             holder.bind(it)
         }
+
+        holder.binding.root.setOnLongClickListener {
+            course = getItem(position)
+
+            false
+        }
+
     }
 
     class CourseViewHolder(

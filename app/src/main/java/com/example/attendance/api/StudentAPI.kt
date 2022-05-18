@@ -1,10 +1,7 @@
 package com.example.attendance.api
 
 import com.example.attendance.api.retrofit.Results
-import com.example.attendance.model.AttendTask
-import com.example.attendance.model.Course
-import com.example.attendance.model.Student
-import com.example.attendance.model.User
+import com.example.attendance.model.*
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -17,7 +14,6 @@ interface StudentAPI {
 
     @POST("student/update")
     fun updateStudentInfo(
-        @Header("token") token : String,
         @Body student: Student
     ) : Observable<Results<Student>>
 
@@ -29,5 +25,8 @@ interface StudentAPI {
 
     @POST("student/gettask")
     fun getTask() : Observable<Results<AttendTask>>
+
+    @POST("student/getrecord")
+    fun getRecordForS() : Observable<Results<List<AttendanceRecord>>>
 
 }

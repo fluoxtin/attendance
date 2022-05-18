@@ -13,6 +13,7 @@ import com.example.attendance.model.Teacher
 import com.example.attendance.model.User
 import com.example.attendance.api.retrofit.Results
 import com.example.attendance.api.retrofit.RetrofitManager
+import com.example.attendance.util.SharedPreferencesUtils
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -69,9 +70,10 @@ class LoginViewModel : ViewModel() {
 
                 override fun onNext(t: Results<Teacher>) {
                     if (t.code == 200) {
+                        SharedPreferencesUtils.putCurrentUser(user)
                         if (t.data != null)
                             _loginResult.value = LoginResult(success = "true")
-                        else _loginResult.value = LoginResult(success = "true", needRegister = true)
+                        else _loginResult.value = LoginResult(needRegister = true)
                     } else
                         _loginResult.value = LoginResult(error = t.code.toString() + " : " + t.msg)
                 }
@@ -96,9 +98,10 @@ class LoginViewModel : ViewModel() {
 
                 override fun onNext(t: Results<Student>) {
                     if (t.code == 200) {
+                        SharedPreferencesUtils.putCurrentUser(user)
                         if (t.data != null)
                             _loginResult.value = LoginResult(success = "true")
-                        else _loginResult.value = LoginResult(success = "true", needRegister = true)
+                        else _loginResult.value = LoginResult(needRegister = true)
                     } else
                         _loginResult.value = LoginResult(error = t.code.toString() + " " + t.msg)
                 }

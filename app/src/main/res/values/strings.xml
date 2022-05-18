@@ -26,4 +26,12 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="attendance_info">你有一条签到任务</string>
+    <string name="destination_location">考勤位置: %1$s</string>
+    <string name="curr_location">当前位置: %1$s </string>
+    <string name="course_tip">今天你有%1$d门课，记得准时上课哦！</string>
+    <string name="sign_in">签到(%1$d s)</string>
+    <string name="reason_for_leave">请假原因：</string>
+    <string name="submit">提交</string>
+    <string name="feedback">意见反馈：</string>
 </resources>

@@ -361,21 +361,21 @@ class FaceHelper private constructor(builder: Builder) {
         return trackedFaceCount + currentMaxFaceId + 1
     }
 
-    /**
-     * 新增搜索成功的人脸
-     *
-     * @param trackId 指定的trackId
-     * @param name    trackId对应的人脸
-     */
-    fun setName(trackId: Int, name: String) {
-        if (nameMap != null) {
-            nameMap!![trackId] = name
-        }
-    }
+//    /**
+//     * 新增搜索成功的人脸
+//     *
+//     * @param trackId 指定的trackId
+//     * @param name    trackId对应的人脸
+//     */
+//    fun setName(trackId: Int, name: String) {
+//        if (nameMap != null) {
+//            nameMap!![trackId] = name
+//        }
+//    }
 
-    fun getName(trackId: Int): String? {
-        return if (nameMap == null) null else nameMap!![trackId]
-    }
+//    fun getName(trackId: Int): String? {
+//        return if (nameMap == null) null else nameMap!![trackId]
+//    }
 
     /**
      * 清除map中已经离开的人脸

@@ -11,6 +11,7 @@ import com.arcsoft.imageutil.ArcSoftImageFormat
 import com.arcsoft.imageutil.ArcSoftImageUtil
 import com.arcsoft.imageutil.ArcSoftImageUtilError
 import com.arcsoft.imageutil.ArcSoftRotateDegree
+import com.example.attendance.App
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -110,6 +111,7 @@ class FaceServer {
                     e.printStackTrace()
                 }
             }
+            Log.d(TAG, "initFaceList: size : ${faceRegisterInfoList?.size}")
         }
     }
 
@@ -200,7 +202,6 @@ class FaceServer {
      * @return 是否注册成功
      */
     fun registerNv21(
-        context: Context?,
         nv21: ByteArray?,
         width: Int,
         height: Int,
@@ -209,7 +210,6 @@ class FaceServer {
     ): Boolean {
         synchronized(this) {
             if (faceEngine == null ||
-                context == null ||
                 nv21 == null ||
                 width % 4 != 0 ||
                 nv21.size != width * height * 3 / 2
@@ -218,7 +218,9 @@ class FaceServer {
                 return false
             }
             if (ROOT_PATH == null) {
-                ROOT_PATH = context.filesDir.absolutePath
+                App.getInstance().apply {
+                    ROOT_PATH = filesDir.absolutePath
+                }
             }
             //特征存储的文件夹
             val featureDir =
@@ -336,6 +338,7 @@ class FaceServer {
             //特征存储的文件夹
             val featureDir =
                 File(ROOT_PATH + File.separator.toString() + SAVE_FEATURE_DIR)
+            Log.d(TAG, "特征存储文件夹 : ${featureDir.absolutePath} ")
             if (!featureDir.exists() && !featureDir.mkdirs()) {
                 Log.e(TAG, "registerBgr24: can not create feature directory")
                 return false
@@ -343,6 +346,7 @@ class FaceServer {
             //图片存储的文件夹
             val imgDir =
                 File(ROOT_PATH + File.separator.toString() + SAVE_IMG_DIR)
+            Log.d(TAG, "图片存储文件夹 : ${imgDir.absolutePath}")
             if (!imgDir.exists() && !imgDir.mkdirs()) {
                 Log.e(TAG, "registerBgr24: can not create image directory")
                 return false
@@ -390,7 +394,7 @@ class FaceServer {
                         val file =
                             File("$imgDir${File.separator}$userName$IMG_SUFFIX")
                         val fosImage = FileOutputStream(file)
-
+                        Log.d(TAG, "fosImage path : ${file.absolutePath}")
 
                         // 创建一个头像的Bitmap，存放旋转结果图
                         val headBmp: Bitmap = getHeadImage(

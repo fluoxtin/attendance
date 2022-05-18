@@ -6,8 +6,8 @@ import java.io.Serializable
 data class Teacher(
     @SerializedName("tea_id")
     var username : String,
-    @SerializedName("name")
-    var name : String,
+    @SerializedName("tea_name")
+    var tea_name : String,
     @SerializedName("sex")
     var sex : String,
     @SerializedName("phone")
@@ -16,4 +16,4 @@ data class Teacher(
     var email : String,
     @SerializedName("unit")
     var unit : String
-)
+) : Serializable

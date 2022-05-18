@@ -32,9 +32,9 @@ class App() : Application() {
     companion object {
         const val TAG = "Attendance_app"
 
-        var myApplication: App? = null
+        private lateinit var myApplication: App
 
-        fun getInstance(): App? {
+        fun getInstance(): App {
             return myApplication
         }
     }

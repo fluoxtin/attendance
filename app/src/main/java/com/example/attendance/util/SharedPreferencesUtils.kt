@@ -25,7 +25,7 @@ object SharedPreferencesUtils {
         return sharedPreferences
     }
 
-    fun putString(key : String, value : String) {
+    private fun putString(key : String, value : String) {
 
         val editor = getSharedPreferences()?.edit()
 
@@ -33,8 +33,15 @@ object SharedPreferencesUtils {
         editor?.apply()
     }
 
-    fun getString(key : String) : String? {
+    private fun getString(key : String) : String? {
         return getSharedPreferences()?.getString(key, "")
+    }
+
+    fun remove(key : String) {
+        getSharedPreferences()?.edit()?.apply{
+            remove(key)
+            apply()
+        }
     }
 
     private fun putObject(key: String, value : Any) {
@@ -136,5 +143,13 @@ object SharedPreferencesUtils {
         }
 
         return -1
+    }
+
+    fun removeUser() {
+        remove(CURRENT_USER_KEY)
+    }
+
+    fun removeToken() {
+        remove(TOKEN_KEY)
     }
 }

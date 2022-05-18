@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.attendance" >
+    package="com.example.attendance">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- GPS 定位 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- GPS 定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -18,17 +20,29 @@
         android:networkSecurityConfig="@xml/network_config"
         android:roundIcon="@drawable/launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Attendance" >
+        android:theme="@style/Theme.Attendance">
+        <activity
+            android:name=".ui.personal.ModifyInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.personal.RequestLeaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.personal.FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.personal.AboutActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.arcface.RecognizeFaceActivity"
-            android:theme="@style/Theme.Attendance.Fullscreen"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Attendance.Fullscreen" />
         <activity
             android:name=".ui.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.Design.Light.NoActionBar" >
+            android:theme="@style/Theme.Design.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,21 +52,17 @@
         <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.Light.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.Light.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true" >
-        </activity> <!-- 百度AK -->
+            android:exported="true" /> <!-- 百度AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="m7QuXsv7wZGoFM7sWDXzGEGr6GT7BXng" >
-        </meta-data>
+            android:value="m7QuXsv7wZGoFM7sWDXzGEGr6GT7BXng" />
     </application>
 
 </manifest>

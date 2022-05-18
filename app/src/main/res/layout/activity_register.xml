@@ -111,13 +111,13 @@
             android:id="@+id/male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="男" />
         <RadioButton
             android:id="@+id/female"
             android:layout_marginStart="72dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Female"/>
+            android:text="女"/>
     </RadioGroup>
 
     <TextView
