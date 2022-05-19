@@ -5,6 +5,8 @@ import android.graphics.Point
 import android.hardware.Camera
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arcsoft.face.ErrorInfo
 import com.arcsoft.face.FaceEngine
@@ -94,6 +96,9 @@ class FaceViewModel() : ViewModel() {
 
     private val getFeatureDelayedDisposables: CompositeDisposable = CompositeDisposable()
     private val delayFaceTaskCompositeDisposable : CompositeDisposable = CompositeDisposable()
+
+    private val _recognizeResult = MutableLiveData<CompareResult>()
+    val recognizeResult : LiveData<CompareResult> = _recognizeResult
 
     fun initEngine(context : Context) {
         Log.d(RecognizeFaceActivity.TAG, "initEngine: ")
@@ -452,15 +457,12 @@ class FaceViewModel() : ViewModel() {
                 override fun onSubscribe(d: Disposable) {}
 
                 override fun onNext(t: CompareResult) {
+                    Log.d(TAG, "onNext: $t")
                     if (t.username == null){
                         requestFeatureStatusMap[requestId] = 2
-
                     }
-
-                    if (t.similar > 0.8f) {
-                        val isAdded = false
-
-                    }
+                    if (t.similar > 0.8)
+                        _recognizeResult.value = t
                 }
 
                 override fun onError(e: Throwable) {

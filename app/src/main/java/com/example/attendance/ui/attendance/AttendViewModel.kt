@@ -1,11 +1,7 @@
 package com.example.attendance.ui.attendance
 
 import android.content.Context
-import android.location.Geocoder
-import android.os.Build
-import android.text.format.DateFormat
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,17 +16,14 @@ import com.example.attendance.api.retrofit.Results
 import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.model.*
 import com.example.attendance.util.SharedPreferencesUtils
-import com.google.android.material.button.MaterialButton
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.example.attendance.util.ToastUtils
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
@@ -47,25 +40,33 @@ class AttendViewModel : ViewModel() {
     private val _courses = MutableLiveData<List<Course>>()
     val course : LiveData<List<Course>> = _courses
 
-    private val _attendTask = MutableLiveData<AttendTask>()
-    val attendTask : LiveData<AttendTask> = _attendTask
+    private val _attendTask = MutableLiveData<AttendTask?>()
+    val attendTask : LiveData<AttendTask?> = _attendTask
 
     private val _currLocation = MutableLiveData<BDLocation>()
     val currLocation : LiveData<BDLocation> = _currLocation
 
     private val _destinationLocation = MutableLiveData<Location>()
-    val desinationLocation : LiveData<Location> = _destinationLocation
+    val destinationLocation : LiveData<Location> = _destinationLocation
 
     private val _canSignIn = MutableLiveData<Boolean>()
     val canSignIn : LiveData<Boolean> = _canSignIn
 
-    private val _task = MutableLiveData<AttendTask>()
-    val task : LiveData<AttendTask> = _task
+    private val _task = MutableLiveData<AttendTask?>()
+    val task : LiveData<AttendTask?> = _task
+
+    private val _countdown = MutableLiveData<Int?>()
+    val countdown : LiveData<Int?> = _countdown
 
     private val BD_LISTENER = object : BDAbstractLocationListener() {
         override fun onReceiveLocation(location: BDLocation?) {
             location?.apply {
                 _currLocation.value = this
+                curLocation = Location(
+                    latitude,
+                    longitude
+                )
+                Log.d(TAG, "onReceiveLocation: $curLocation")
                 val addr = location.addrStr
                 val country = location.country
                 val province = location.province
@@ -77,9 +78,10 @@ class AttendViewModel : ViewModel() {
     }
 
     var locationClient : LocationClient? = null
-    private val mCoder = GeoCoder.newInstance()
+    var curLocation : Location? = null
 
     var compositeDisposable = CompositeDisposable()
+    var disposable : Disposable? = null
 
     init {
         SharedPreferencesUtils.getCurrentUser()?.apply {
@@ -222,8 +224,11 @@ class AttendViewModel : ViewModel() {
                 override fun onSubscribe(d: Disposable) {}
 
                 override fun onNext(t: Results<Any>) {
-                    if (t.code == 200)
+                    if (t.code == 200){
+                        ToastUtils.showShortToast("发布任务成功")
                         Log.i(TAG, "onNext: post task success!")
+                        _task.value = task
+                    }
 
                 }
 
@@ -237,7 +242,7 @@ class AttendViewModel : ViewModel() {
 
     private fun getTaskForS() {
         compositeDisposable.add(
-            Observable.interval(0,3, TimeUnit.MINUTES)
+            Observable.interval(10,120, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
@@ -250,7 +255,9 @@ class AttendViewModel : ViewModel() {
 
                             override fun onNext(t: Results<AttendTask>) {
                                 if (t.code == 200)
-                                    t.data?.apply { _attendTask.value = this }
+                                    t.data?.apply {
+                                        _attendTask.value = this
+                                    }
                                 else Log.e(TAG, "onNext: code : ${t.code}, msg : ${t.msg}" )
                             }
 
@@ -265,14 +272,80 @@ class AttendViewModel : ViewModel() {
         )
     }
 
-    fun canSignIn() {
-        val location = desinationLocation.value
-        location?.apply {
-            _canSignIn.value = (sqrt(
-                (latitude - (currLocation.value?.latitude ?: 0).toDouble()).pow(2.0) +
-                        (longitude - (currLocation.value?.longitude ?: 0).toDouble()).pow(2.0)
-            ) <= 100)
+    fun startCountdown(deadline : Long) {
+        val time = (deadline - System.currentTimeMillis()) / 1000
+        disposable?.apply {
+            dispose()
         }
+        disposable = Flowable.intervalRange(0,
+            time,
+            0,
+            1, TimeUnit.SECONDS
+        ).observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                _countdown.value = (time - it).toInt()
+            }
+            .doOnComplete { _task.value = null
+                _countdown.value = null
+            }.subscribe()
+    }
+
+    fun stopCountdown() {
+        disposable?.apply {
+            dispose()
+        }
+    }
+
+
+    fun canSignIn(location : Location) {
+
+        location.apply {
+            val distance = sqrt(
+                (latitude - (curLocation?.latitude ?: 0.0)).pow(2.0) +
+                        (longitude - (curLocation?.longitude ?: 0.0)).pow(2.0)
+            )
+            Log.d(TAG, "canSignIn: $distance")
+            _canSignIn.value = distance <= 100
+        }
+    }
+
+    fun postAttendanceRecord(task : AttendTask, attend : Int) {
+
+        val record = AttendanceRecord(
+            task.attend_id,
+            task.cour_id,
+            System.currentTimeMillis(),
+            attend
+        )
+
+        RetrofitManager.getService(StudentAPI::class.java)
+            .postRecord(record)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<AttendanceRecord>> {
+                override fun onSubscribe(d: Disposable) {}
+
+                override fun onNext(t: Results<AttendanceRecord>) {
+                    t.apply {
+                        if (code == 200) {
+                            ToastUtils.showShortToast("post record successfully")
+                            _attendTask.value = null
+                            stopCountdown()
+                        } else{
+                            ToastUtils.showLongToast("Post record failed")
+                            Log.d(TAG, "onNext: post record failed ${t.code}")
+                        }
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    e.message?.let { ToastUtils.showShortToast(it) }
+                    Log.d(TAG, "onError: ${e.message}")
+                }
+
+                override fun onComplete() {}
+            })
+
     }
 
 
@@ -305,7 +378,7 @@ class AttendViewModel : ViewModel() {
 
     companion object {
         const val TAG = "ViewModel"
-        const val LIMITED_TIME = 8 * 60 * 1000
+        const val LIMITED_TIME = 5 * 60 * 1000
 
     }
 

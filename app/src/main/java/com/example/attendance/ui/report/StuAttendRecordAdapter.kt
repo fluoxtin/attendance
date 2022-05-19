@@ -1,12 +1,17 @@
 package com.example.attendance.ui.report
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.attendance.App
+import com.example.attendance.R
 import com.example.attendance.databinding.AttendanceRecordItemBinding
 import com.example.attendance.model.AttendanceRecord
+import java.text.SimpleDateFormat
+import java.util.*
 
 class StuAttendRecordAdapter :
     ListAdapter<AttendanceRecord, StuAttendRecordAdapter.RecordViewHolder>(CALLBACK) {
@@ -27,12 +32,20 @@ class StuAttendRecordAdapter :
 
     class RecordViewHolder(val binding: AttendanceRecordItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SimpleDateFormat")
         fun bind(item : AttendanceRecord) {
+            val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(item.sign_in_time))
             binding.courseName.text = item.cour_name
-            binding.recordTime.text = item.time
+            binding.recordTime.text = time
             binding.isAttendance.text = when(item.isAttendance) {
-                true -> "出勤"
-                else -> "缺勤"
+                1 -> {
+                    binding.isAttendance.setTextColor(App.getInstance().getColor(R.color.attendance))
+                    "出勤"
+                }
+                else -> {
+                    binding.isAttendance.setTextColor(App.getInstance().getColor(R.color.absence))
+                    "缺勤"
+                }
             }
         }
     }

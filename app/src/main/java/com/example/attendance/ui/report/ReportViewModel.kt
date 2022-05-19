@@ -56,7 +56,6 @@ class ReportViewModel : ViewModel() {
                }
 
                override fun onComplete() {
-                   TODO("Not yet implemented")
                }
 
            })

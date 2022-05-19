@@ -1,5 +1,6 @@
 package com.example.attendance.ui.report
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.attendance.databinding.AttendanceRecordItemBinding
 import com.example.attendance.model.CourseAttendanceRecord
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CourRecordAdapter :
     ListAdapter<CourseAttendanceRecord, CourRecordAdapter.CourseRecordViewHolder>(CALLBACK) {
@@ -25,11 +28,13 @@ class CourRecordAdapter :
 
     class CourseRecordViewHolder(val binding: AttendanceRecordItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
+            @SuppressLint("SimpleDateFormat")
             fun bind(item : CourseAttendanceRecord) {
+                val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(item.time))
                 binding.courseName.text = item.cour_name
-                binding.recordTime.text = item.time
-                binding.attendNum.text = item.actual_attendance.toString()
-                binding.absenceNum.text = (item.total_student - item.actual_attendance).toString()
+                binding.recordTime.text = time
+                binding.attendNum.text = item.actual.toString()
+                binding.absenceNum.text = (item.total - item.actual).toString()
                 binding.isAttendance.visibility = View.GONE
             }
 

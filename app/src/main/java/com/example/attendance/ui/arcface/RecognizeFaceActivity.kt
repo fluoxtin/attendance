@@ -1,6 +1,7 @@
 package com.example.attendance.ui.arcface
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Point
@@ -28,6 +29,8 @@ import com.example.attendance.faceserver.CompareResult
 import com.example.attendance.faceserver.FaceHelper
 import com.example.attendance.faceserver.FaceListener
 import com.example.attendance.faceserver.FaceServer
+import com.example.attendance.util.SharedPreferencesUtils
+import com.example.attendance.util.ToastUtils
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
@@ -41,7 +44,7 @@ class RecognizeFaceActivity : AppCompatActivity(), ViewTreeObserver.OnGlobalLayo
 
     lateinit var binding : ActivityRecognizeFaceBinding
 
-    val faceViewModel by viewModels<FaceViewModel>()
+    private val faceViewModel by viewModels<FaceViewModel>()
 
 
 
@@ -84,6 +87,23 @@ class RecognizeFaceActivity : AppCompatActivity(), ViewTreeObserver.OnGlobalLayo
     private fun initView() {
         binding.singleCameraTexturePreview
             .viewTreeObserver.addOnGlobalLayoutListener(this)
+
+        faceViewModel.recognizeResult.observe(this) {
+            it?.apply {
+                val user = SharedPreferencesUtils.getCurrentUser()
+                val intent = Intent()
+                when {
+                    username != user!!.username -> {
+                        intent.putExtra("recognized", false)
+                    }
+                    similar < 0.8 -> intent.putExtra("recognized", false)
+                    else -> intent.putExtra("recognized", true)
+                }
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+        }
+
     }
 
     override fun onDestroy() {

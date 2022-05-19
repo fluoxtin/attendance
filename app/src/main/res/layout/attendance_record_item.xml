@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="8dp">
-
+    android:background="@color/white"
+    android:layout_marginBottom="4dp">
     
     <TextView
         android:id="@+id/course_name"
@@ -15,7 +15,7 @@
         android:padding="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textSize="32sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="这是一个课程"/>
@@ -26,9 +26,11 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_marginTop="8dp"
-        android:textSize="24sp"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="@id/course_name"
         app:layout_constraintTop_toBottomOf="@id/course_name"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="2022/3/5 9:00" />
 
     <TextView
@@ -37,7 +39,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_marginEnd="8dp"
-        android:textSize="28sp"
+        android:textSize="20sp"
         app:layout_constraintTop_toTopOf="@id/course_name"
         app:layout_constraintBottom_toBottomOf="@id/record_time"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +51,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_marginEnd="8dp"
-        android:textSize="26sp"
+        android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/course_name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:padding="8dp"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/attend_num"
         app:layout_constraintStart_toStartOf="@id/attend_num"

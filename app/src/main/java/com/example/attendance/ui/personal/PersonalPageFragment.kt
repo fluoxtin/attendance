@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.example.attendance.R
 import com.example.attendance.databinding.FragmentPersonalPageBinding
 import com.example.attendance.faceserver.FaceServer
 import com.example.attendance.model.Course
@@ -39,11 +40,11 @@ class PersonalPageFragment : Fragment() {
         }
 
         binding.modifyPassword.setOnClickListener {
-
+            requireContext().startActivity(Intent(requireContext(), ModifyInfoActivity::class.java))
         }
 
         binding.feedback.setOnClickListener {
-
+            requireContext().startActivity(Intent(requireContext(), FeedbackActivity::class.java))
         }
 
         binding.logout.setOnClickListener {
@@ -63,8 +64,13 @@ class PersonalPageFragment : Fragment() {
         viewModel.currentTeacher.observe(viewLifecycleOwner) {
             binding.username.text = it.tea_name
             binding.unit.text = it.unit
-        }
 
+            when(it.sex) {
+                "男" -> binding.userPhoto.setImageResource(R.drawable.male_image)
+                "女" -> binding.userPhoto.setImageResource(R.drawable.female_image)
+                else -> binding.userPhoto.setImageResource(R.drawable.personal_icon)
+            }
+        }
     }
 
     private fun initViewForS() {
@@ -86,8 +92,15 @@ class PersonalPageFragment : Fragment() {
             binding.username.text = it.name
             binding.unit.text = it.unit
             binding.studentClass.text = it.stu_class
+
+            when(it.sex) {
+                "男" -> binding.userPhoto.setImageResource(R.drawable.male_image)
+                "女" -> binding.userPhoto.setImageResource(R.drawable.female_image)
+                else -> binding.userPhoto.setImageResource(R.drawable.personal_icon)
+            }
         }
     }
+
 
     companion object {
         const val ACTION_PICK_IMAGE = 0X202

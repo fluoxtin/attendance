@@ -14,4 +14,6 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="color_primary">#FF3281BD</color>
+    <color name="attendance">#FF2AC100</color>
+    <color name="absence">#FFD80101</color>
 </resources>

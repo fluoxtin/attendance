@@ -62,7 +62,7 @@ class ReportFragment : Fragment() {
         binding.attendanceInfo.visibility = View.VISIBLE
         binding.absenceInfo.visibility = View.VISIBLE
 
-        binding.records.adapter = courseRecordAdapter
+        binding.records.adapter = stuRecordAdapter
         binding.records.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.stuAttendRecords.observe(viewLifecycleOwner) {
@@ -71,7 +71,7 @@ class ReportFragment : Fragment() {
             binding.totalTaskNum.text = it.size.toString()
             var attendNum = 0
             for (record in it) {
-                if (record.isAttendance)
+                if (record.isAttendance == 1)
                     attendNum++
             }
             binding.totalAttendanceNumber.text = attendNum.toString()

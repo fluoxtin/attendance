@@ -120,6 +120,8 @@ class MainActivity : AppCompatActivity() {
 
         })
         mediator.attach()
+
+        FaceServer.instance.init(this)
     }
 
     /**
@@ -194,11 +196,11 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         data?.apply {
-            if (this.data == null) {
-                ToastUtils.showLongToast("failed to pick image")
-                return
-            }
             if (requestCode == ACTION_PICK_IMAGE) {
+                if (this.data == null) {
+                    ToastUtils.showLongToast("failed to pick image")
+                    return
+                }
                 var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, this.data)
                 bitmap = ArcSoftImageUtil.getAlignedBitmap(bitmap, true)
                 executorService = Executors.newSingleThreadExecutor()
@@ -229,7 +231,6 @@ class MainActivity : AppCompatActivity() {
                             ToastUtils.showShortToast("register failed")
                     }
                 }
-
             }
         }
     }

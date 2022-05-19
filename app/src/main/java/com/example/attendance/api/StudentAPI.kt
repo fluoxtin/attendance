@@ -29,4 +29,7 @@ interface StudentAPI {
     @POST("student/getrecord")
     fun getRecordForS() : Observable<Results<List<AttendanceRecord>>>
 
+    @POST("student/postrecord")
+    fun postRecord(@Body record : AttendanceRecord) : Observable<Results<AttendanceRecord>>
+
 }
