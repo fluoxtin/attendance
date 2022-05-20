@@ -6,10 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- GPS 定位 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- GPS 定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -21,6 +19,9 @@
         android:roundIcon="@drawable/launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Attendance">
+        <activity
+            android:name=".ui.report.RecordDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.personal.ModifyInfoActivity"
             android:exported="false" />

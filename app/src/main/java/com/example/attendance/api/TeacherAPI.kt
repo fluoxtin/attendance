@@ -28,4 +28,10 @@ interface TeacherAPI {
     @POST("teacher/getrecord")
     fun getRecordForT() : Observable<Results<List<CourseAttendanceRecord>>>
 
+    @POST("teacher/getallrecords")
+    fun getStuRecords(@Body record : CourseAttendanceRecord) : Observable<Results<List<StudentRecord>>>
+
+    @POST("teacher/getcurtask")
+    fun getCurTask() : Observable<Results<AttendTask>>
+
 }

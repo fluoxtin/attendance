@@ -1,6 +1,8 @@
 package com.example.attendance.ui.report
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.attendance.databinding.FragmentReportBinding
+import com.example.attendance.model.CourseAttendanceRecord
 import com.example.attendance.util.SharedPreferencesUtils
 import com.example.attendance.util.ToastUtils
 
@@ -15,7 +18,7 @@ import com.example.attendance.util.ToastUtils
  * A simple [Fragment] subclass.
  * create an instance of this fragment.
  */
-class ReportFragment : Fragment() {
+class ReportFragment : Fragment(), OnItemClickListener {
 
     lateinit var binding: FragmentReportBinding
     private var stuRecordAdapter : StuAttendRecordAdapter? = null
@@ -47,11 +50,17 @@ class ReportFragment : Fragment() {
         binding.attendanceInfo.visibility = View.GONE
         binding.absenceInfo.visibility = View.GONE
 
+        courseRecordAdapter?.listener = this
+
         binding.records.adapter = courseRecordAdapter
         binding.records.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.courseRecords.observe(viewLifecycleOwner) {
             courseRecordAdapter?.submitList(it)
+            if (it.isEmpty()) {
+                binding.emptyRecordTip.visibility = View.VISIBLE
+            } else
+                binding.emptyRecordTip.visibility = View.GONE
         }
 
     }
@@ -68,6 +77,11 @@ class ReportFragment : Fragment() {
         viewModel.stuAttendRecords.observe(viewLifecycleOwner) {
             stuRecordAdapter?.submitList(it)
 
+            if (it.isEmpty()) {
+                binding.emptyRecordTip.visibility = View.VISIBLE
+            } else
+                binding.emptyRecordTip.visibility = View.GONE
+
             binding.totalTaskNum.text = it.size.toString()
             var attendNum = 0
             for (record in it) {
@@ -77,6 +91,17 @@ class ReportFragment : Fragment() {
             binding.totalAttendanceNumber.text = attendNum.toString()
             binding.totalAbsenceNumber.text = (it.size - attendNum).toString()
         }
+    }
+
+    override fun onClick(record: CourseAttendanceRecord) {
+        Log.d(TAG, "onClick: $id")
+        val intent = Intent(requireContext(), RecordDetailActivity::class.java)
+        intent.putExtra("record", record)
+        requireContext().startActivity(intent)
+    }
+
+    companion object {
+        const val TAG = "ReportFragment"
     }
 
 }

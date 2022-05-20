@@ -88,6 +88,7 @@ class AttendViewModel : ViewModel() {
             if (role == 0) {
                 getTeacherInfo()
                 getTeacherCourse()
+                getCurTask()
             } else if (role == 1) {
                 getStudentInfo()
                 getStudentCourse()
@@ -227,13 +228,40 @@ class AttendViewModel : ViewModel() {
                     if (t.code == 200){
                         ToastUtils.showShortToast("发布任务成功")
                         Log.i(TAG, "onNext: post task success!")
-                        _task.value = task
+                        getCurTask()
                     }
 
                 }
 
                 override fun onError(e: Throwable) {
                     Log.e(TAG, "onError: ${e.message}" )
+                }
+
+                override fun onComplete() {}
+            })
+    }
+
+    private fun getCurTask() {
+        RetrofitManager.getService(TeacherAPI::class.java)
+            .getCurTask()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<AttendTask>> {
+                override fun onSubscribe(d: Disposable) {}
+
+                override fun onNext(t: Results<AttendTask>) {
+                    t.apply {
+                        if (code == 200) {
+                            data?.apply {
+                                _task.value = this
+                            }
+                        }
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    ToastUtils.showShortToast("error : ${e.message}")
+                    Log.d(TAG, "getCurTask: ${e.message} & ${e.cause}")
                 }
 
                 override fun onComplete() {}

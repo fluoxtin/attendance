@@ -10,6 +10,7 @@
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_main.xml" value="0.19351570415400202" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_modify_info.xml" value="0.31657608695652173" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_recognize_face.xml" value="0.19351570415400202" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_record_detail.xml" value="0.19351570415400202" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_register_face.xml" value="0.18931159420289856" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_request_leave.xml" value="0.2" />
@@ -20,6 +21,7 @@
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_attendance.xml" value="0.4" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_personal_page.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_report.xml" value="0.4" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/stu_record_item.xml" value="0.19351570415400202" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/tap_layout.xml" value="0.3388888888888889" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/menu/post_task_menu.xml" value="0.33541666666666664" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/xml/network_config.xml" value="1.0928571428571427" />

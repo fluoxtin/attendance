@@ -10,7 +10,6 @@ import com.example.attendance.api.retrofit.Results
 import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.model.AttendanceRecord
 import com.example.attendance.model.CourseAttendanceRecord
-import com.example.attendance.ui.attendance.AttendViewModel
 import com.example.attendance.util.SharedPreferencesUtils
 import com.example.attendance.util.ToastUtils
 import io.reactivex.Observer
@@ -88,6 +87,4 @@ class ReportViewModel : ViewModel() {
     companion object {
         const val TAG = "ReportViewModel"
     }
-
-
 }

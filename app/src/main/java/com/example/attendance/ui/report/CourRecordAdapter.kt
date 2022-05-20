@@ -15,6 +15,7 @@ import java.util.*
 class CourRecordAdapter :
     ListAdapter<CourseAttendanceRecord, CourRecordAdapter.CourseRecordViewHolder>(CALLBACK) {
 
+    var listener : OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseRecordViewHolder {
         return CourseRecordViewHolder(
@@ -23,7 +24,11 @@ class CourRecordAdapter :
     }
 
     override fun onBindViewHolder(holder: CourseRecordViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val record = getItem(position)
+        holder.bind(record)
+        holder.binding.root.setOnClickListener {
+            listener?.onClick(record)
+        }
     }
 
     class CourseRecordViewHolder(val binding: AttendanceRecordItemBinding)
@@ -35,6 +40,8 @@ class CourRecordAdapter :
                 binding.recordTime.text = time
                 binding.attendNum.text = item.actual.toString()
                 binding.absenceNum.text = (item.total - item.actual).toString()
+                binding.attendNum.visibility = View.VISIBLE
+                binding.absenceNum.visibility = View.VISIBLE
                 binding.isAttendance.visibility = View.GONE
             }
 

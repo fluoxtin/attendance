@@ -69,7 +69,7 @@ class AttendanceFragment : Fragment() {
         viewModel.task.observe(viewLifecycleOwner) {
             it?.apply {
                 binding.postTaskInfoCv.visibility = View.VISIBLE
-                binding.postTaskInfo.text = getString(R.string.current_task_info, adapter.course?.cour_name)
+                binding.postTaskInfo.text = getString(R.string.current_task_info, cour_id)
                 viewModel.startCountdown(deadline)
             }
             if (it == null)
