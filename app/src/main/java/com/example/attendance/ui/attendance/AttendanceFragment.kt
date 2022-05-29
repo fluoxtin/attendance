@@ -100,6 +100,9 @@ class AttendanceFragment : Fragment() {
                     "女" -> binding.userPhoto.setImageResource(R.drawable.female_image)
                     else -> binding.userPhoto.setImageResource(R.drawable.personal_icon)
                 }
+                face_url?.apply {
+                    viewModel.loadFace(this)
+                }
             }
         }
 

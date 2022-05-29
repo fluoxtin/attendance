@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.attendance.R
+import com.example.attendance.api.APIService
 import com.example.attendance.api.StudentAPI
 import com.example.attendance.api.TeacherAPI
 import com.example.attendance.model.Student
@@ -14,6 +15,7 @@ import com.example.attendance.model.User
 import com.example.attendance.api.retrofit.Results
 import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.util.SharedPreferencesUtils
+import com.example.attendance.util.ToastUtils
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -113,6 +115,30 @@ class LoginViewModel : ViewModel() {
                 override fun onComplete() {
                 }
 
+            })
+    }
+
+    fun delete() {
+        RetrofitManager.getService(APIService::class.java)
+            .delete()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Results<Any>> {
+                override fun onSubscribe(d: Disposable) {}
+
+                override fun onNext(t: Results<Any>) {
+                    Log.d(TAG, "deleteUserInfo $t")
+                    if (t.code == 200) {
+                        ToastUtils.showShortToast(t.code.toString() + " : " + t.msg)
+                        SharedPreferencesUtils.removeToken()
+                    }
+                    else ToastUtils.showLongToast("${t.msg}")
+                }
+                override fun onError(e: Throwable) {
+                    Log.d(TAG, "delelte user: ${e.message} ")
+                }
+                override fun onComplete() {
+                }
             })
     }
 

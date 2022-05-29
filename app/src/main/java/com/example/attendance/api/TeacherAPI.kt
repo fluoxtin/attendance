@@ -7,7 +7,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface TeacherAPI {
-
     @POST("teacher/login")
     fun registerOrLoginForTea(@Body user: User) : Observable<Results<Teacher>>
 
@@ -33,5 +32,4 @@ interface TeacherAPI {
 
     @POST("teacher/getcurtask")
     fun getCurTask() : Observable<Results<AttendTask>>
-
 }

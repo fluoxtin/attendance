@@ -24,5 +24,7 @@ data class Student(
     @SerializedName("stu_class")
     var stu_class : String?,
     @SerializedName("major")
-    var major : String?
+    var major : String?,
+    @SerializedName("face_url")
+    var face_url: String? = null
 ) : Serializable

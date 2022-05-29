@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.arcsoft.face.ErrorInfo
@@ -45,8 +46,6 @@ class RecognizeFaceActivity : AppCompatActivity(), ViewTreeObserver.OnGlobalLayo
     lateinit var binding : ActivityRecognizeFaceBinding
 
     private val faceViewModel by viewModels<FaceViewModel>()
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,13 +96,28 @@ class RecognizeFaceActivity : AppCompatActivity(), ViewTreeObserver.OnGlobalLayo
                         intent.putExtra("recognized", false)
                     }
                     similar < 0.8 -> intent.putExtra("recognized", false)
-                    else -> intent.putExtra("recognized", true)
+                    else -> {
+                        val alertDialog = AlertDialog.Builder(this@RecognizeFaceActivity)
+                            .setTitle("人脸识别成功！")
+                            .setMessage("你当前已完成人脸识别，是否需要立即完成签到？")
+                            .setNegativeButton("否") { dialog, _ ->
+                                dialog.cancel()
+                                setResult(RESULT_OK, intent)
+                                finish()
+                            }
+                            .setPositiveButton("是") { dialog, _ ->
+                                intent.putExtra("recognized", true)
+                                dialog.dismiss()
+                                setResult(RESULT_OK)
+                                finish()
+                            }
+                            .create()
+                        alertDialog.setCancelable(false)
+                        alertDialog.show()
+                    }
                 }
-                setResult(RESULT_OK, intent)
-                finish()
             }
         }
-
     }
 
     override fun onDestroy() {

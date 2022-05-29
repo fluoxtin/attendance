@@ -109,33 +109,33 @@ object SharedPreferencesUtils {
             getObject(CURRENT_USER_KEY) as User
     }
 
-    fun putCurrentStudent(student: Student) {
-        putObject(CURRENT_STUDENT_KEY, student)
-    }
+//    fun putCurrentStudent(student: Student) {
+//        putObject(CURRENT_STUDENT_KEY, student)
+//    }
+//
+//    fun getCurrentStudent() : Student? {
+//        return if (getObject(CURRENT_STUDENT_KEY) == null)
+//            null
+//        else getObject(CURRENT_STUDENT_KEY) as Student
+//    }
+//
+//    fun putCurrentTeacher(teacher : Teacher) {
+//        putObject(CURRENT_TEACHER_KEY, teacher)
+//    }
+//
+//    fun getCurrentTeacher() : Teacher? {
+//        return if (getObject(CURRENT_TEACHER_KEY) == null)
+//            null
+//        else getObject(CURRENT_TEACHER_KEY) as Teacher
+//    }
 
-    fun getCurrentStudent() : Student? {
-        return if (getObject(CURRENT_STUDENT_KEY) == null)
-            null
-        else getObject(CURRENT_STUDENT_KEY) as Student
-    }
-
-    fun putCurrentTeacher(teacher : Teacher) {
-        putObject(CURRENT_TEACHER_KEY, teacher)
-    }
-
-    fun getCurrentTeacher() : Teacher? {
-        return if (getObject(CURRENT_TEACHER_KEY) == null)
-            null
-        else getObject(CURRENT_TEACHER_KEY) as Teacher
-    }
-
-    fun hasCurrentUserInfo() : Any? {
-        return when {
-            getCurrentTeacher()!= null -> getCurrentTeacher()
-            getCurrentStudent() != null -> getCurrentStudent()
-            else -> null
-        }
-    }
+//    fun hasCurrentUserInfo() : Any? {
+//        return when {
+//            getCurrentTeacher()!= null -> getCurrentTeacher()
+//            getCurrentStudent() != null -> getCurrentStudent()
+//            else -> null
+//        }
+//    }
 
     fun getCurrentUserRole() : Int {
         getCurrentUser()?.apply {

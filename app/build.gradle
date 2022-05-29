@@ -88,8 +88,14 @@ dependencies {
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
     // 检索组件
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Search:7.4.0'
+    // 工具组件
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Util:7.4.0'
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation project(':dateandtimepicker')
 
+    implementation 'com.aliyun.dpa:oss-android-sdk:2.9.11'
+
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.27.0'
 }

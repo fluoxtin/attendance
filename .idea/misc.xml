@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2385" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/drawable/round_rectangle.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/drawable/textview_all_blue_background.xml" value="0.1355" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/drawable/textview_blue_background.xml" value="0.144" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_about.xml" value="0.39791666666666664" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_feedback.xml" value="0.39791666666666664" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_login.xml" value="0.2" />
@@ -13,18 +16,29 @@
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_record_detail.xml" value="0.19351570415400202" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_register_face.xml" value="0.18931159420289856" />
-        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_request_leave.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_request_leave.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/attendance_record_item.xml" value="0.19199594731509625" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/bottom_tab_layout.xml" value="0.16393442622950818" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/course_item.xml" value="0.264" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/date_picker.xml" value="0.25226449275362317" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_attendance.xml" value="0.4" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_personal_page.xml" value="0.2" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/fragment_report.xml" value="0.4" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/stu_record_item.xml" value="0.19351570415400202" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/tap_layout.xml" value="0.3388888888888889" />
+        <entry key="..\:/AndroidProject/Attendance/app/src/main/res/layout/time_picker_sheet.xml" value="0.1" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/menu/post_task_menu.xml" value="0.33541666666666664" />
         <entry key="..\:/AndroidProject/Attendance/app/src/main/res/xml/network_config.xml" value="1.0928571428571427" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/drawable/double_date_picker_button_background_selector.xml" value="0.132" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/drawable/double_date_picker_button_background_selector_ios.xml" value="0.132" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/drawable/picker_divider.xml" value="0.132" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/layout-v21/bottom_sheet_picker_bottom_sheet.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/layout/bottom_sheet_double_picker.xml" value="0.24010416666666667" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/layout/bottom_sheet_double_picker_bottom_sheet.xml" value="0.39895833333333336" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/layout/bottom_sheet_picker.xml" value="0.39895833333333336" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/layout/bottom_sheet_picker_bottom_sheet.xml" value="0.24010416666666667" />
+        <entry key="..\:/AndroidProject/Attendance/dateandtimepicker/src/main/res/layout/single_day_and_time_picker.xml" value="0.1" />
       </map>
     </option>
   </component>

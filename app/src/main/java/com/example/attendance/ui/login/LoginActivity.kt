@@ -1,11 +1,14 @@
 package com.example.attendance.ui.login
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -13,8 +16,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.attendance.ui.MainActivity
 import com.example.attendance.R
+import com.example.attendance.api.retrofit.RetrofitManager
 import com.example.attendance.ui.register.RegisterActivity
 import com.example.attendance.databinding.ActivityLoginBinding
+import com.example.attendance.util.SharedPreferencesUtils
 
 class LoginActivity : AppCompatActivity() {
 
@@ -46,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
             if (loginState.passwordError != null) {
                 password.error = getString(loginState.passwordError)
             }
-
         })
 
         loginViewModel.loginResult.observe(this, Observer {
@@ -57,14 +61,32 @@ class LoginActivity : AppCompatActivity() {
                 showLoginFailed(loginResult.error)
             }
             if  (it.needRegister != null) {
-                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                startActivity(intent)
+
+                AlertDialog.Builder(this@LoginActivity)
+                    .setTitle("注册提醒")
+                    .setMessage("当前用户${binding.username.text}未注册，是否要注册并完善相关信息")
+                    .setPositiveButton("注册") { dialog, which ->
+                        val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                        startActivity(intent)
+                        dialog.dismiss()
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                    .setNegativeButton("取消") { dialog, which ->
+                        dialog.cancel()
+                        loginViewModel.delete()
+                        binding.username.text = null
+                        binding.password.text = null
+                        RetrofitManager.refresh()
+                    }.show()
             }
+
             if (loginResult.success != null) {
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                setResult(Activity.RESULT_OK)
+                finish()
             }
-            setResult(Activity.RESULT_OK)
-            finish()
+
         })
 
 
@@ -102,7 +124,6 @@ class LoginActivity : AppCompatActivity() {
             loading.visibility = View.VISIBLE
             loginViewModel.login(username.text.toString(), password.text.toString(), role)
         }
-
     }
 
     private fun showLoginFailed( errorString : String) {
@@ -116,11 +137,9 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
             }
         })
     }

@@ -1,40 +1,40 @@
 <resources>
-    <string name="app_name">Attendance</string>
-    <string name="username">学号/工号</string>
-    <string name="password">密码</string>
-    <string name="sign_in_or_register">登录/注册</string>
-    <string name="invalid_username">用户名不合法</string>
-    <string name="invalid_password">密码至少包含6个字符</string>
-    <string name="role_error">请选择您的账号角色</string>
-    <string name="sex_error">请选择您的性别</string>
-    <string name="welcome">欢迎 !</string>
-    <string name="login_failed">登录失败!！</string>
-    <string name="name_error">请输入真实姓名</string>
-    <string name="phone_error">请输入手机号</string>
-    <string name="email_error">请输入有效</string>
-    <string name="tea_unit_error">请输入办公室位置</string>
-    <string name="class_error">请输入班级</string>
-    <string name="major_error">请输入你的专业</string>
-    <string name="welcome_user">Hi, %1$s</string>
-    <string name="class_number_tip">今天你有%1$d门课，记得准时上课哦！</string>
-    <string name="specific_engine_init_failed">%s 初始化失败，错误码为: %d</string>
+    <string name="app_name" translatable="false">Attendance</string>
+    <string name="username" translatable="false">学号/工号</string>
+    <string name="password" translatable="false">密码</string>
+    <string name="sign_in_or_register" translatable="false">登录/注册</string>
+    <string name="invalid_username" translatable="false">用户名不合法</string>
+    <string name="invalid_password" translatable="false">密码至少包含8个字符</string>
+    <string name="role_error" translatable="false">请选择您的账号角色</string>
+    <string name="sex_error" translatable="false">请选择您的性别</string>
+    <string name="welcome" translatable="false">欢迎 !</string>
+    <string name="login_failed" translatable="false">登录失败!！</string>
+    <string name="name_error" translatable="false">请输入真实姓名</string>
+    <string name="phone_error" translatable="false">请输入手机号</string>
+    <string name="email_error" translatable="false">请输入有效</string>
+    <string name="tea_unit_error" translatable="false">请输入办公室位置</string>
+    <string name="class_error" translatable="false">请输入班级</string>
+    <string name="major_error" translatable="false">请输入你的专业</string>
+    <string name="welcome_user" translatable="false">Hi, %1$s</string>
+    <string name="class_number_tip" translatable="false">今天你有%1$d门课，记得准时上课哦！</string>
+    <string name="specific_engine_init_failed" translatable="false">%s 初始化失败，错误码为: %d</string>
     <string-array name="tab_titles">
         <item>Attendance</item>
         <item>Report</item>
         <item>Personal</item>
     </string-array>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="attendance_info">你有一条签到任务</string>
-    <string name="destination_location">考勤位置: %1$s</string>
-    <string name="curr_location">当前位置:%1$s</string>
-    <string name="course_tip">今天你有%1$d门课，记得准时上课哦！</string>
-    <string name="sign_in">签到(%1$ds)</string>
-    <string name="reason_for_leave">请假原因：</string>
-    <string name="submit">提交</string>
-    <string name="feedback">意见反馈：</string>
-    <string name="is_class_time">正在上课</string>
-    <string name="current_task_info">当前考勤课程：%1$s</string>
-    <string name="countdown">倒计时:</string>
+    <string name="title_activity_splash" translatable="false">SplashActivity</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
+    <string name="attendance_info" translatable="false">你有一条签到任务</string>
+    <string name="destination_location" translatable="false">考勤位置: %1$s</string>
+    <string name="curr_location" translatable="false">当前位置:%1$s</string>
+    <string name="course_tip" translatable="false">今天你有%1$d门课，记得准时上课哦！</string>
+    <string name="sign_in" translatable="false">签到(%1$ds)</string>
+    <string name="reason_for_leave" translatable="false">请假原因：</string>
+    <string name="submit" translatable="false">提交</string>
+    <string name="feedback" translatable="false">意见反馈：</string>
+    <string name="is_class_time" translatable="false">正在上课</string>
+    <string name="current_task_info" translatable="false">当前考勤课程：%1$s</string>
+    <string name="countdown" translatable="false">倒计时:</string>
 </resources>

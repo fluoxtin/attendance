@@ -2,6 +2,7 @@ package com.example.attendance.faceserver
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.util.Log
 import com.arcsoft.face.*
@@ -12,6 +13,8 @@ import com.arcsoft.imageutil.ArcSoftImageUtil
 import com.arcsoft.imageutil.ArcSoftImageUtilError
 import com.arcsoft.imageutil.ArcSoftRotateDegree
 import com.example.attendance.App
+import com.example.attendance.oss.OSSUploader
+import com.example.attendance.util.ToastUtils
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -409,6 +412,9 @@ class FaceServer {
                         headBmp.compress(Bitmap.CompressFormat.JPEG, 100, fosImage)
                         fosImage.close()
 
+//                        val upload = OSSUploader()
+//                        upload.uploadFile("$userName.jpg", file.absolutePath)
+
                         // 保存特征数据
                         val fosFeature =
                             FileOutputStream("$featureDir${File.separator}$userName")
@@ -442,6 +448,28 @@ class FaceServer {
                 false
             }
         }
+    }
+
+    fun registerByByteArray(byteArray: ByteArray, name: String) {
+        var bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        bitmap = ArcSoftImageUtil.getAlignedBitmap(bitmap, true)
+        val bgr24 = ArcSoftImageUtil
+            .createImageData(bitmap.width, bitmap.height, ArcSoftImageFormat.BGR24)
+        val transformCode = ArcSoftImageUtil
+            .bitmapToImageData(bitmap, bgr24, ArcSoftImageFormat.BGR24)
+        if (transformCode != ArcSoftImageUtilError.CODE_SUCCESS) {
+            Log.e(TAG, "transformCode Error ")
+            return
+        }
+        val success = registerBgr24(
+                App.getInstance(),
+                bgr24,
+                bitmap.width,
+                bitmap.height,
+                name
+            )
+        if (success)
+            Log.d(TAG, "register success")
     }
 
     /**

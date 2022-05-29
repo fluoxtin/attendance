@@ -38,12 +38,23 @@ object  RetrofitManager {
         .addInterceptor(headInterceptor)
         .build()
 
-    private val retrofit = Retrofit.Builder()
+    private var retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
+
+    fun refresh() {
+        retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+    }
+
+
 
     fun <T> getService(clazz: Class<T>?): T {
         return retrofit.create(clazz)

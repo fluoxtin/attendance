@@ -32,4 +32,10 @@ interface StudentAPI {
     @POST("student/postrecord")
     fun postRecord(@Body record : AttendanceRecord) : Observable<Results<AttendanceRecord>>
 
+    @POST("student/requestleave")
+    fun requsetLeave(@Body requestLeave: RequestLeave) : Observable<Results<Any>>
+
+    @POST("student/updatefaceurl")
+    fun updateFace(@Body student : Student) : Observable<Results<Student>>
+
 }

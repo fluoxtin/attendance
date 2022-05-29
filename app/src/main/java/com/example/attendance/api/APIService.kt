@@ -15,4 +15,7 @@ interface APIService {
     @POST("/api/islogin")
     fun isLogin() : Observable<Results<User>>
 
+    @POST("/api/delete")
+    fun delete() : Observable<Results<Any>>
+
 }

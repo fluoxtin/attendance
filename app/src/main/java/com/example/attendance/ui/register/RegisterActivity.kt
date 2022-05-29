@@ -140,7 +140,8 @@ class RegisterActivity : AppCompatActivity() {
                     binding.email.text.toString(),
                     binding.unit.text.toString(),
                     binding.stuClass.text.toString(),
-                    binding.major.text.toString()
+                    binding.major.text.toString(),
+                    null
                 )
                 registerViewModel.updateStudentInfo(student)
             }

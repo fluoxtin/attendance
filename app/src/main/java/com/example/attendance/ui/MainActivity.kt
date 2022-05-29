@@ -1,10 +1,8 @@
 package com.example.attendance.ui
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -15,9 +13,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.arcsoft.face.ErrorInfo
 import com.arcsoft.face.FaceEngine
 import com.arcsoft.face.VersionInfo
-import com.arcsoft.imageutil.ArcSoftImageFormat
-import com.arcsoft.imageutil.ArcSoftImageUtil
-import com.arcsoft.imageutil.ArcSoftImageUtilError
 import com.example.attendance.App
 import com.example.attendance.R
 import com.example.attendance.common.Constants
@@ -26,7 +21,6 @@ import com.example.attendance.faceserver.FaceServer
 import com.example.attendance.ui.attendance.AttendanceFragment
 import com.example.attendance.ui.personal.PersonalPageFragment
 import com.example.attendance.ui.report.ReportFragment
-import com.example.attendance.util.SharedPreferencesUtils
 import com.example.attendance.util.ToastUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -37,7 +31,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Log.i(App.TAG, "onCreate: ${applicationInfo.nativeLibraryDir}")
-
 
         val versionInfo = VersionInfo()
         val code = FaceEngine.getVersion(versionInfo)
@@ -95,7 +88,6 @@ class MainActivity : AppCompatActivity() {
             R.drawable.personal_icon
         )
 
-
         val mediator = TabLayoutMediator(tabLayout, viewpager, true) { tab, position ->
             tab.text = titles[position]
             tab.icon = getDrawable(bgs[position])
@@ -137,7 +129,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-
         Observable.create(ObservableOnSubscribe<Int> {
             val runtimeABI = FaceEngine.getRuntimeABI()
             Log.i(App.TAG, "subscribe: getRuntimeABI() + $runtimeABI")
@@ -166,7 +157,6 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onError(e: Throwable) {
                     e.message?.let { ToastUtils.showShortToast(it) }
-
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -174,7 +164,6 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onComplete() {
                 }
-
             })
     }
 
@@ -193,48 +182,6 @@ class MainActivity : AppCompatActivity() {
         return allGranted
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        data?.apply {
-            if (requestCode == ACTION_PICK_IMAGE) {
-                if (this.data == null) {
-                    ToastUtils.showLongToast("failed to pick image")
-                    return
-                }
-                var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, this.data)
-                bitmap = ArcSoftImageUtil.getAlignedBitmap(bitmap, true)
-                executorService = Executors.newSingleThreadExecutor()
-                executorService?.execute {
-                    val bgr24 = ArcSoftImageUtil
-                        .createImageData(bitmap.width, bitmap.height, ArcSoftImageFormat.BGR24)
-                    val transformCode = ArcSoftImageUtil
-                        .bitmapToImageData(bitmap, bgr24, ArcSoftImageFormat.BGR24)
-                    if (transformCode != ArcSoftImageUtilError.CODE_SUCCESS) {
-                        runOnUiThread {
-                            ToastUtils.showShortToast("transform image failed")
-                        }
-                        return@execute
-                    }
-                    val username = SharedPreferencesUtils.getCurrentUser()?.username
-                    val success = FaceServer.instance
-                        .registerBgr24(
-                            this@MainActivity,
-                            bgr24,
-                            bitmap.width,
-                            bitmap.height,
-                            username
-                        )
-                    runOnUiThread {
-                        if (success) {
-                            ToastUtils.showShortToast("register success")
-                        } else
-                            ToastUtils.showShortToast("register failed")
-                    }
-                }
-            }
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         executorService?.apply {
@@ -244,19 +191,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     companion object {
         const val TAG = "MainActivity"
         const val ACTION_REQUEST_PERMISSIONS = 0x001
-        const val ACTION_PICK_IMAGE = 0x202
         val NEEDED_PERMISSIONS = arrayOf(
             android.Manifest.permission.READ_PHONE_STATE,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
             android.Manifest.permission.ACCESS_COARSE_LOCATION,
-        )
-        val LIBRARIES = arrayListOf(
-            "libarcsoft_face_engine.so",
-            "libarcsoft_face.so"
         )
     }
 }

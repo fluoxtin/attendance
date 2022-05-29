@@ -9,12 +9,15 @@ import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
-import com.baidu.mapapi.search.geocode.GeoCoder
+import com.example.attendance.App
 import com.example.attendance.api.StudentAPI
 import com.example.attendance.api.TeacherAPI
 import com.example.attendance.api.retrofit.Results
 import com.example.attendance.api.retrofit.RetrofitManager
+import com.example.attendance.faceserver.FaceServer
 import com.example.attendance.model.*
+import com.example.attendance.oss.OSSUploader
+import com.example.attendance.util.Distance
 import com.example.attendance.util.SharedPreferencesUtils
 import com.example.attendance.util.ToastUtils
 import io.reactivex.Flowable
@@ -24,10 +27,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.lang.Exception
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 class AttendViewModel : ViewModel() {
 
@@ -135,11 +138,12 @@ class AttendViewModel : ViewModel() {
                 override fun onNext(t: Results<Student>) {
                     t.apply {
                         if (code == 200) {
-                           data?.apply {
-                               _currentStudent.value = this
-                           }
+                            data?.apply {
+                                Log.d(TAG, "getStudentInfo : $data")
+                                _currentStudent.value = this
+                            }
                         } else {
-                            Log.e(TAG, "onNext: error code : ${t.code} & msg : ${t.msg}" )
+                            Log.e(TAG, "onNext: error code : ${t.code} & msg : ${t.msg}")
                         }
                     }
 
@@ -152,6 +156,27 @@ class AttendViewModel : ViewModel() {
                 override fun onComplete() {}
             })
     }
+
+    fun loadFace(key : String) {
+        Log.d(TAG, "loadFace: ")
+        val isExists = fileIsExists(App.getInstance().filesDir.absolutePath + File.separator +
+        FaceServer.SAVE_IMG_DIR + File.separator + key + FaceServer.IMG_SUFFIX)
+        if (isExists)
+            return
+        else OSSUploader.instance.downloadFile(key)
+    }
+
+    private fun fileIsExists(path : String) : Boolean {
+        try {
+            val f = File(path)
+            if (!f.exists())
+                return false
+        } catch (e : Exception) {
+            return false
+        }
+        return true
+    }
+
 
     private fun getStudentCourse() {
         RetrofitManager.getService(StudentAPI::class.java)
@@ -302,6 +327,10 @@ class AttendViewModel : ViewModel() {
 
     fun startCountdown(deadline : Long) {
         val time = (deadline - System.currentTimeMillis()) / 1000
+        if (time < 0) {
+            ToastUtils.showLongToast("countdown time < 0, task is overdue")
+            return
+        }
         disposable?.apply {
             dispose()
         }
@@ -324,21 +353,15 @@ class AttendViewModel : ViewModel() {
         }
     }
 
-
     fun canSignIn(location : Location) {
 
-        location.apply {
-            val distance = sqrt(
-                (latitude - (curLocation?.latitude ?: 0.0)).pow(2.0) +
-                        (longitude - (curLocation?.longitude ?: 0.0)).pow(2.0)
-            )
-            Log.d(TAG, "canSignIn: $distance")
-            _canSignIn.value = distance <= 100
-        }
+        val p2 = Location(curLocation?.latitude ?: 0.0, curLocation?.longitude ?: 0.0)
+        val distance = Distance.getDistance(location, p2)
+        Log.d(TAG, "canSignIn: distance : $distance")
+        _canSignIn.value = distance < 50
     }
 
     fun postAttendanceRecord(task : AttendTask, attend : Int) {
-
         val record = AttendanceRecord(
             task.attend_id,
             task.cour_id,
@@ -376,6 +399,37 @@ class AttendViewModel : ViewModel() {
 
     }
 
+     fun updateFaceUrl(key : String) {
+         val student = _currentStudent.value!!
+         student.face_url = key
+         RetrofitManager.getService(StudentAPI::class.java)
+             .updateFace(student)
+             .subscribeOn(Schedulers.io())
+             .observeOn(AndroidSchedulers.mainThread())
+             .subscribe(object : Observer<Results<Student>> {
+                 override fun onSubscribe(d: Disposable) {}
+
+                 override fun onNext(t: Results<Student>) {
+                     t.apply {
+                         if (code == 200) {
+                             data?.apply {
+                                 _currentStudent.value = this
+                             }
+                         } else {
+                             Log.d(TAG, "error code : $code,$msg")
+                         }
+                     }
+                 }
+
+                 override fun onError(e: Throwable) {
+                     Log.d(TAG, "update face onError: $e")
+                 }
+
+                 override fun onComplete() {
+                 }
+
+             })
+     }
 
     fun start() {
         compositeDisposable.dispose()
